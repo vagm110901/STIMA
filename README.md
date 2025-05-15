@@ -24,6 +24,6 @@ You can install the development version of STIMA from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("vagm110901/STIMA")
+# install.packages("remotes")
+remotes::install_github("vagm110901/STIMA")
 ```
