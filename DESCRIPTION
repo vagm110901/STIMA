@@ -1,0 +1,78 @@
+Package: STIMA
+Title: Spatial Transcriptomics Image-based Methods for Alignment
+Version: 0.0.0.9000
+Authors@R: 
+    person("Víctor A.", "Gaya-Martín", , "vagayam11@gmail.com", role = c("aut", "cre"))
+Description: Spatial Transcriptomics data alignment in a pairwise comparison manner based exclusively on image data without incorporating gene expression data.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+LazyData: true
+VignetteBuilder: knitr
+Remotes:
+    ludvigla/semla
+Depends: R (<= 4.3.2)
+Imports: 
+    Seurat (>= 5.0.2),
+    SeuratDisk,
+    SeuratObject (>= 5.0.2),
+    patchwork,
+    spacexr (>= 2.2.1),
+    reticulate (>= 1.40.0),
+    tibble (>= 3.2.1),
+    imager,
+    IMIFA,
+    SpatialPack, 
+    Matrix,
+    MatrixGenerics,
+    matrixStats,
+    data.table,
+    dbplyr,
+    dplyr,
+    dtplyr,
+    ggplot2,
+    ggpubr,
+    htmltools,
+    vembedr,
+    BiocManager,
+    BiocGenerics,
+    doParallel,
+    hdf5r,
+    parallel,
+    parallelly,
+    png,
+    jpeg,
+    SparseArray,
+    grDevices,
+    knitr,
+    rmarkdown,
+    FactoMineR,
+    lme4,
+    lmerTest,
+    cowplot,
+    foreach,
+    gridExtra,
+    reshape2,
+    scales,
+    tidyr
+SystemRequirements: 
+    Python (<= 3.13.1),
+    ImageMagick++ (via conda: conda install -c conda-forge imagemagick), 
+    pkg-config,
+    STalign,
+    torch,
+    matplotlib,
+    numpy, 
+    PASTE2,
+    os, 
+    pandas,
+    scanpy,
+    seaborn,
+    skimage,
+    anndata,
+    cv2,
+    scipy
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
