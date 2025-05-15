@@ -3,3 +3,5 @@
 /inst/extdata/data/*
 *.rds
 /data/*
+data/*.rds
+inst/extdata/data/snRNAseq_2/*.csv
