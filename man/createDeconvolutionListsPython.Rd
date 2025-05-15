@@ -8,7 +8,7 @@ createDeconvolutionListsPython(object.seurat, split_by = "name", mode = c("STali
 createDeconvolutionListsPython(
   object.seurat,
   object,
-  plit_by = "name",
+  split_by = "name",
   mode = c("STalign", "PASTE2")
 )
 }
@@ -19,9 +19,9 @@ If mode == PASTE2, it should be the Seurat object after the PASTE2 alignment. {P
 
 \item{object}{A Seurat object with the original data.}
 
-\item{mode}{A character string indicating the deconvolution method to be used. Options are "GTEM", "procrustes", or "RVSSimageJ". Default is "GTEM".}
-
 \item{split_by}{A character string indicating the metadata field to split the Seurat object by. Default is "name".}
+
+\item{mode}{A character string indicating the deconvolution method to be used. Options are "GTEM", "procrustes", or "RVSSimageJ". Default is "GTEM".}
 }
 \value{
 A list of Seurat objects, each containing a reference and two problematic objects for deconvolution analysis.

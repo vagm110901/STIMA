@@ -35,7 +35,7 @@ options(future.globals.maxSize = 8000 * 1024^2)
 ```{r}
 #| label: files1
 # Define the folder where raw data is located
-inputDir <- system.file("extdata/data/GSE222322_RAW", package = "STIMA")
+inputDir <- "/home/vgaya/STIMA_extData/GSE222322_RAW"
 
 # Define the folder where output images or results will be saved
 saveDir <- tempdir()
