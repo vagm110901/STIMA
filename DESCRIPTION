@@ -11,10 +11,12 @@ RoxygenNote: 7.3.2
 LazyData: true
 VignetteBuilder: knitr
 Remotes:
-    ludvigla/semla
-Depends: R (<= 4.3.2)
+    ludvigla/semla (1.3.1)
+Depends: 
+    R (<= 4.3.2),
+    Seurat (== 5.0.2),
 Imports: 
-    Seurat (<= 5.0.2),
+    Seurat (== 5.0.2),
     SeuratDisk,
     SeuratObject (<= 5.0.2),
     patchwork,
