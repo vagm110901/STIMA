@@ -191,10 +191,16 @@ resultProcrustes <- function(proc, mirrorx, mirrory, scale) {
 #' @return object.seurat aligned
 #' @import semla
 #' @import Seurat
+#' @import tibble
+#' @import reticulate
 #' @export
 STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = c(TRUE, FALSE)) {
   mode <- match.arg(mode) 
   scale <- match.arg(scale)
+
+  if (!requireNamespace("semla", quietly = TRUE)) {
+    remotes::install_github("ludvigla/semla") }
+  library(semla)
 
   if (!dir.exists("./results/")) {
     dir.create("./results/", recursive = TRUE)
