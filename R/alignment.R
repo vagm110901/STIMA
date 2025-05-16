@@ -196,7 +196,7 @@ resultProcrustes <- function(proc, mirrorx, mirrory, scale) {
 #' @export
 STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = c(TRUE, FALSE)) {
   mode <- match.arg(mode) 
-  scale <- match.arg(scale)
+  scale <- match.arg(as.logical(scale))
 
   if (!dir.exists("./results/")) {
     dir.create("./results/", recursive = TRUE)
