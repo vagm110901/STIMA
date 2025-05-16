@@ -608,7 +608,7 @@ evaluationComplete <- function(listaCoordenadasNEW, listaCoordenadas,
 #' @import imager
 #' @export 
 calculateEvaluation <- function(objeto.seurat, mode = c("GTEM", "procrustes", "RVSSimageJ"), 
-                                listaCoordenadasNEW, listaCoordenadas, 
+                                listaCoordenadasNEW = None, listaCoordenadas = None, 
                                 patientType = c('unique','multiple')) {
 
   patientType <- match.arg(patientType)

@@ -689,6 +689,11 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
   object.seurat <- UpdateSeuratFromSemla(object.semla, image_use = "transformed")
   saveRDS(object.seurat, paste0(saveDir, "objectAligned_merge_",mode,".rds"))
 
-  return(object.seurat)
+  if (mode == "RVSSimageJ") {return(list(alignedObj = object.seurat))}
+  else if (mode == "GTEM" | mode == "Procrustes") {
+    return(list(alignedObj = object.seurat,
+                listCoord = listaCoordenadas,
+                listCoordNew = listaCoordenadasNEW))}
+                
 }    
 
