@@ -619,7 +619,7 @@ calculateEvaluation <- function(objeto.seurat, mode = c("GTEM", "procrustes", "R
   }
   saveDir <- "./results/"
   
-  if (modeAbr == "RVSSimageJ") {
+  if (mode == "RVSSimageJ") {
     listaCoordenadas <- list()
     listaCoordenadasNEW <- list()
     for (i in 1:length(objeto.seurat@tools$Staffli@rasterlists$raw)) {
