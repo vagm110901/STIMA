@@ -189,6 +189,8 @@ resultProcrustes <- function(proc, mirrorx, mirrory, scale) {
 #' @param mode GTEM, procrustes, RVSSimageJ
 #' @param scale TRUE or FALSE
 #' @return object.seurat aligned
+#' @import semla
+#' @import Seurat
 #' @export
 STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = c(TRUE, FALSE)) {
   mode <- match.arg(mode) 
@@ -342,6 +344,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         solucionOrig <- solveCoord(coordenadas1, coordenadas2, xmax2, ymax2)
         solucionOrig[["mirrorx"]] <- 0
         solucionOrig[["mirrory"]] <- 0
+        solucionOrig[["e"]] <- 1
     
         # Solve transformations with mirroring on the x-axis
         coordenadas2X <- coordenadas2
@@ -351,6 +354,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         solucionMirrorX <- solveCoord(coordenadas1, coordenadas2X, xmax2, ymax2)
         solucionMirrorX[["mirrorx"]] <- 10
         solucionMirrorX[["mirrory"]] <- 0
+        solucionMirrorX[["e"]] <- 1
     
         # Solve transformations with mirroring on the y-axis
         coordenadas2Y <- coordenadas2
@@ -360,6 +364,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         solucionMirrorY <- solveCoord(coordenadas1, coordenadas2Y, xmax2, ymax2)
         solucionMirrorY[["mirrorx"]] <- 0
         solucionMirrorY[["mirrory"]] <- 10
+        solucionMirrorY[["e"]] <- 1
     
         # Solve transformations with mirroring on both x and y axes
         coordenadas2XY <- coordenadas2
@@ -372,6 +377,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         solucionMirrorXY <- solveCoord(coordenadas1, coordenadas2XY, xmax2, ymax2)
         solucionMirrorXY[["mirrorx"]] <- 10
         solucionMirrorXY[["mirrory"]] <- 1
+        solucionMirrorXY[["e"]] <- 1
 
       } else if (mode == "procrustes") {
         # Initialize lists for storing sum of squares and calculated coordinates

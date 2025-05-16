@@ -14,9 +14,9 @@ Remotes:
     ludvigla/semla
 Depends: R (<= 4.3.2)
 Imports: 
-    Seurat (>= 5.0.2),
+    Seurat (<= 5.0.2),
     SeuratDisk,
-    SeuratObject (>= 5.0.2),
+    SeuratObject (<= 5.0.2),
     patchwork,
     spacexr (>= 2.2.1),
     reticulate (>= 1.40.0),
