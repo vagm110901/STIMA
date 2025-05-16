@@ -198,10 +198,6 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
   mode <- match.arg(mode) 
   scale <- match.arg(scale)
 
-  if (!requireNamespace("semla", quietly = TRUE)) {
-    remotes::install_github("ludvigla/semla") }
-  library(semla)
-
   if (!dir.exists("./results/")) {
     dir.create("./results/", recursive = TRUE)
   }
@@ -210,7 +206,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
   object.semla <- UpdateSeuratForSemla(object)
   object.semla <- LoadImages(object.semla, image_height = 600)
 
-  ImagePlot(object.semla)
+  #ImagePlot(object.semla)
 
   if (mode == "RVSSimageJ") {
     # Set up lists for alignment process and coordinate retrieval
