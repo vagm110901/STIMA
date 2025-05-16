@@ -9,8 +9,8 @@ patientType = c('unique','multiple'))}
 calculateEvaluation(
   objeto.seurat,
   mode = c("GTEM", "procrustes", "RVSSimageJ"),
-  listaCoordenadasNEW,
-  listaCoordenadas,
+  listaCoordenadasNEW = None,
+  listaCoordenadas = None,
   patientType = c("unique", "multiple")
 )
 }
