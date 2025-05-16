@@ -398,7 +398,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
           coordenadas2X$x[[j]] <- xmax2 - coordenadas2X$x[[j]]
         }
         matProb <- matrix(data = unlist(coordenadas2X), ncol = 2)
-        proc <- Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = dilate, sumsq = TRUE) 
+        proc <- Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = scale, sumsq = TRUE) 
         solucionMirrorX <- resultProcrustes(proc, TRUE, FALSE, scale)
         val_sum_cuad[["solucionMirrorX"]] <- proc$ss
         coordCalc[["solucionMirrorX"]] <- proc$X.new
@@ -409,7 +409,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
           coordenadas2Y$y[[j]] <- ymax2 - coordenadas2Y$y[[j]]
         }
         matProb <- matrix(data = unlist(coordenadas2Y), ncol = 2)
-        proc <- Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = dilate, sumsq = TRUE)
+        proc <- Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = scale, sumsq = TRUE)
         solucionMirrorY <- resultProcrustes(proc, FALSE, TRUE, scale)
         val_sum_cuad[["solucionMirrorY"]] <- proc$ss
         coordCalc[["solucionMirrorY"]] <- proc$X.new
@@ -423,7 +423,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
           coordenadas2XY$y[[j]] <- ymax2 - coordenadas2XY$y[[j]]
         }
         matProb <- matrix(data = unlist(coordenadas2XY), ncol = 2)
-        proc <- Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = dilate, sumsq = TRUE)
+        proc <- Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = scale, sumsq = TRUE)
         solucionMirrorXY <- resultProcrustes(proc, TRUE, TRUE, scale)
         val_sum_cuad[["solucionMirrorXY"]] <- proc$ss
         coordCalc[["solucionMirrorXY"]] <- proc$X.new
