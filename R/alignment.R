@@ -597,7 +597,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
     }}
   
     # Apply rotation if the angle is non-zero
-    angulo <- valores$angulo
+    angulo <- valores[['angulo']]
     if ( angulo != 0 && angulo != 360 ){
       transforms_angle <- generate_rigid_transform(sampleID = i, 
                                                   angle = angulo)
@@ -615,7 +615,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
     }
   
     # Apply translation if dx or dy is non-zero
-    if ( valores$trx != 0 || valores$try != 0 ) {
+    if ( valores[['trx']] != 0 || valores[['try']] != 0 ) {
       transforms_trans <- generate_rigid_transform(sampleID = i, 
                                                   tr_x = valores[['trx']], #round(valores[[2]], digits = 2), 
                                                   tr_y = valores[['try']]) #round(valores[[3]], digits = 2),
@@ -633,7 +633,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
     }
   
     # Apply scaling if the scale factor is non-zero
-    if ( valores$e != 1 ) {
+    if ( valores[['e']] != 1 ) {
       transforms_scale <- generate_rigid_transform(sampleID = i, 
                                                   scalefactor = valores[['e']])
       object.semla <- RigidTransformImages(object.semla, transforms = transforms_scale)
