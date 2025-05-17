@@ -579,7 +579,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
     original[[i]] <- object.semla@tools$Staffli@rasterlists$raw[[i]]
   
     # Apply mirror transformation if the mirror values are non-zero
-    if (mode != "RVSSimageJ") { if (valores$mirrorx != 0 || valores$mirrory != 0) {
+    if (mode != "RVSSimageJ") { if (valores[['mirrorx']] != 0 || valores[['mirrory']] != 0) {
       transforms_mirror <- generate_rigid_transform(sampleID = i, 
                                                     mirror_x = as.logical(valores[['mirrorx']]),
                                                     mirror_y = as.logical(valores[['mirrory']]))
