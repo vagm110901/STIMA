@@ -230,12 +230,12 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
     ref_name <- "tissue_lowres_image_1"
     
     # Instructions for folder setup before alignment
-    cat(paste("You should have created in this directory a folder called: ", source_dir,
+    cat(paste("\n\nYou should have created in this directory a folder called: ", source_dir,
               "\nAnd a folder called: ", target_dir,
               "\nIn the first one, you should have the images from de rds document.\n"))
     
     # Provide instructions for the manual alignment process in ImageJ
-    cat(paste("It is time to open ImageJ and do the alignment of the images.",
+    cat(paste("\nIt is time to open ImageJ and do the alignment of the images.",
               "\nFirst, go to File>Open and select the different images to align.",
               "The images should have only one color channel.",
               "To do this you should go to Image>Color>Split Channels and then Image>Color>Merge Channels unselecting create composite.",
@@ -247,11 +247,11 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
     # Wait for user confirmation before proceeding
     answer <- "no"
     while (answer != 'yes') {
-      cat(paste0("When you have all this completed, write: 'yes': "))
+      cat(paste0("\nWhen you have all this completed, write: 'yes': "))
       answer <- readline()
     }
     if (answer == 'yes') {
-      cat(paste0("The alignment is done and the transformation parameters are saved."))
+      cat(paste0("\nThe alignment is done and the transformation parameters are saved."))
     }
     
     # Extract translation and rotation parameters from XML files in the target directory
@@ -542,12 +542,14 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         # Retrieve and convert transformation parameters
         solucion <- listaSoluciones[[i]]
         valores <- solucion
-        valores$angle <- solucion$angle * (180/pi)  # Convert angle to degrees
+        valores$angulo <- solucion$angle * (180/pi)  # Convert angle to degrees
         
         # Adjust dx and dy based on image center for transformation normalization
-        valores$dx <-  (solucion$dx - (xmax/2 - xmax/2 * cos(solucion$angle) + ymax/2 * sin(solucion$angle))) / xmax
-        valores$dy <-  (solucion$dy - (ymax/2 - ymax/2 * cos(solucion$angle) - xmax/2 * sin(solucion$angle))) / ymax
-        
+        valores$trx <-  (solucion$dx - (xmax/2 - xmax/2 * cos(solucion$angle) + ymax/2 * sin(solucion$angle))) / xmax
+        valores$try <-  (solucion$dy - (ymax/2 - ymax/2 * cos(solucion$angle) - xmax/2 * sin(solucion$angle))) / ymax
+
+	valores$e <- 1        
+
       } else if (scale == TRUE) {
         # Retrieve and convert transformation parameters
         solucion <- listaSoluciones[[i]]
@@ -555,15 +557,15 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         
         # Calculate the angle based on the cosine and sine values
         angle_rad <- atan2(solucion[["s*sin"]], solucion[["s*cos"]])
-        valores["angle"] <- angle_rad * (180/pi)  # Convert angle to degrees
+        valores$angulo <- angle_rad * (180/pi)  # Convert angle to degrees
         
         # Calculate the scale factor extracting from the estimated values
-        valores["scale"] <- sqrt(solucion[["s*sin"]]^2 + solucion[["s*cos"]]^2)
-        valores["scale"] <- ifelse(valores$scale > 3, 3, valores$scale)
+        valores$e <- sqrt(solucion[["s*sin"]]^2 + solucion[["s*cos"]]^2)
+        valores$e <- ifelse(valores$scale > 3, 3, valores$scale)
         
         # Adjust dx and dy based on image center for transformation normalization
-        valores["dx"] <-  (solucion$dx - (xmax/2 - xmax/2 * cos(angle_rad) + ymax/2 * sin(angle_rad))) / xmax
-        valores["dy"] <-  (solucion$dy - (ymax/2 - ymax/2 * cos(angle_rad) - xmax/2 * sin(angle_rad))) / ymax
+        valores$trx <-  (solucion$dx - (xmax/2 - xmax/2 * cos(angle_rad) + ymax/2 * sin(angle_rad))) / xmax
+        valores$try <-  (solucion$dy - (ymax/2 - ymax/2 * cos(angle_rad) - xmax/2 * sin(angle_rad))) / ymax
         
         valores$dx <- ifelse(valores$dx > 1, 1, valores$dx)
         valores$dy <- ifelse(valores$dy > 1, 1, valores$dy)
@@ -577,7 +579,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
     original[[i]] <- object.semla@tools$Staffli@rasterlists$raw[[i]]
   
     # Apply mirror transformation if the mirror values are non-zero
-    if ( valores[['mirrorx']] != 0 || valores[['mirrory']] != 0 ) {
+    if (mode != "RVSSimageJ") { if (valores$mirrorx != 0 || valores$mirrory != 0) {
       transforms_mirror <- generate_rigid_transform(sampleID = i, 
                                                     mirror_x = as.logical(valores[['mirrorx']]),
                                                     mirror_y = as.logical(valores[['mirrory']]))
@@ -592,10 +594,10 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
       object.semla@tools[["Staffli"]]@meta_data[
         which(object.semla@tools[["Staffli"]]@meta_data[6] == i), 3] <- object.semla@tools[["Staffli"]]@meta_data[
           which(object.semla@tools[["Staffli"]]@meta_data[6] == i), 5]
-    }
+    }}
   
     # Apply rotation if the angle is non-zero
-    angulo <- valores[['angulo']]
+    angulo <- valores$angulo
     if ( angulo != 0 && angulo != 360 ){
       transforms_angle <- generate_rigid_transform(sampleID = i, 
                                                   angle = angulo)
@@ -613,7 +615,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
     }
   
     # Apply translation if dx or dy is non-zero
-    if ( valores[['trx']] != 0 || valores[['try']] != 0 ) {
+    if ( valores$trx != 0 || valores$try != 0 ) {
       transforms_trans <- generate_rigid_transform(sampleID = i, 
                                                   tr_x = valores[['trx']], #round(valores[[2]], digits = 2), 
                                                   tr_y = valores[['try']]) #round(valores[[3]], digits = 2),
@@ -631,7 +633,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
     }
   
     # Apply scaling if the scale factor is non-zero
-    if ( valores[['e']] != 1 ) {
+    if ( valores$e != 1 ) {
       transforms_scale <- generate_rigid_transform(sampleID = i, 
                                                   scalefactor = valores[['e']])
       object.semla <- RigidTransformImages(object.semla, transforms = transforms_scale)
