@@ -199,8 +199,8 @@ controlAlign <- function(image1) {
                             rmse_value = rmse_value, ssim_value = ssim_value)
   
   # Calculate alignment metrics for a negative control (image vs random image).
-  image2 <- system.file("extdata", "image_negative.JPG", package = "STIMA")
-  if (is.na(dim(image2)[3])) image2 <- hex2rgb_table(image2)
+  image2 <- readJPEG(system.file("extdata", "image_negative.JPG", package = "STIMA"))
+  if (is.na(dim(image2)[3])) {image2 <- hex2rgb_table(image2)}
   
   image2 <- image2[1:dim(image1rec)[[1]], 1:dim(image1rec)[[2]], ]
   mse_value <- mse(image1rec, image2)
