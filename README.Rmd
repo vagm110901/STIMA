@@ -27,9 +27,24 @@ ImageJ plugin Register Virtual Stack Slices (RVSS-ImageJ).
 
 ## Installation
 
-You can install the development version of STIMA from [GitHub](https://github.com/) with:
+You can install STIMA from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("vagm110901/STIMA")
 ```
+
+⚠️ WARNING: If, during the installation of STIMA, R asks to update some packages to their latest versions, proceed with caution.
+STIMA has been developed to work with Seurat version 5.0.2 and not newer versions, as significant changes were introduced in the way Spatial Transcriptomics data is read.
+The semla package was used in version 1.3.1, and spacexr in version 2.2.1.
+If you encounter issues with any other packages in their latest versions, consider reverting to an earlier version to ensure STIMA functions correctly.
+For development, R version 4.3.2 or earlier was used.
+
+## Documentation
+
+STIMA provides the following vignettes to better understand the functionality of the package:
+
+- [STIMA Usage](vignettes/STIMA_align_intrapatient.html): Guide on how to use STIMA for aligning multiple slices. It covers three main steps: 1) STIMA alignment, 2) Evaluation, and 3) Deconvolution. 
+- [Creating Seurat objects for intra-patient alignment](vignettes/Rscript_Yadav2023_Merge4Slices.Rmd): Instructions on how to load and merge multiple 10x Visium ST slices from the same patient into a single Seurat object for STIMA alignment. 
+- [Creating Seurat objects for inter-patient alignment](vignettes/Rscript_Yadav2023_Merge4Patients.Rmd): Instructions on how to load and merge multiple 10x Visium ST samples from different patients into a single Seurat object for STIMA alignment.
+

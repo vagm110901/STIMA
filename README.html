@@ -619,9 +619,36 @@ alignment approaches—Geometric Transformation Estimation Model (GTEM),
 Procrustes Transformation and the ImageJ plugin Register Virtual Stack
 Slices (RVSS-ImageJ).</p>
 <h2 id="installation">Installation</h2>
-<p>You can install the development version of STIMA from <a href="https://github.com/">GitHub</a> with:</p>
+<p>You can install STIMA from <a href="https://github.com/">GitHub</a>
+with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># install.packages(&quot;remotes&quot;)</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;vagm110901/STIMA&quot;</span>)</span></code></pre></div>
+<p>⚠️ WARNING: If, during the installation of STIMA, R asks to update
+some packages to their latest versions, proceed with caution. STIMA has
+been developed to work with Seurat version 5.0.2 and not newer versions,
+as significant changes were introduced in the way Spatial
+Transcriptomics data is read. The semla package was used in version
+1.3.1, and spacexr in version 2.2.1. If you encounter issues with any
+other packages in their latest versions, consider reverting to an
+earlier version to ensure STIMA functions correctly. For development, R
+version 4.3.2 or earlier was used.</p>
+<h2 id="documentation">Documentation</h2>
+<p>STIMA provides the following vignettes to better understand the
+functionality of the package:</p>
+<ul>
+<li><a href="vignettes/STIMA_align_intrapatient.html">STIMA Usage</a>:
+Guide on how to use STIMA for aligning multiple slices. It covers three
+main steps: 1) STIMA alignment, 2) Evaluation, and 3)
+Deconvolution.</li>
+<li><a href="vignettes/Rscript_Yadav2023_Merge4Slices.Rmd">Creating
+Seurat objects for intra-patient alignment</a>: Instructions on how to
+load and merge multiple 10x Visium ST slices from the same patient into
+a single Seurat object for STIMA alignment.</li>
+<li><a href="vignettes/Rscript_Yadav2023_Merge4Patients.Rmd">Creating
+Seurat objects for inter-patient alignment</a>: Instructions on how to
+load and merge multiple 10x Visium ST samples from different patients
+into a single Seurat object for STIMA alignment.</li>
+</ul>
 
 </body>
 </html>

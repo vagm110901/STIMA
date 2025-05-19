@@ -1,3 +1,5 @@
 ^doc$
 ^Meta$
 ^README\.Rmd$
+^inst/extdata/exampleData/
+^dev$
