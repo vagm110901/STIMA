@@ -8,19 +8,24 @@
 STIMA(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = FALSE)
 }
 \arguments{
-\item{object}{first object with the slices/samples merged together}
+\item{object}{A Seurat object with merged slices/samples containing spatial and image data.}
 
-\item{mode}{GTEM, procrustes, RVSSimageJ}
+\item{mode}{Character. Alignment mode to use. One of "GTEM", "procrustes", or "RVSSimageJ".
+\itemize{
+\item "GTEM": Geometric transformations without scaling.
+\item "procrustes": Uses Procrustes analysis with optional scaling.
+\item "RVSSimageJ": Uses ImageJ Register Virtual Stack Slices plugin for manual alignment.
+}}
 
-\item{scale}{TRUE or FALSE}
+\item{scale}{Logical. Whether to compute scaling during alignment (only applies to "procrustes" and "RVSSimageJ" modes).}
 }
 \value{
+A Seurat object updated with alignment transformations.
+
 object.seurat aligned
 }
 \description{
 Spatial Transcriptomics Image-based Methods for Alignment
-
-Calculates the scale factor based on the coordinates of a reference image and the target image.
 }
 \details{
 STIMA Package

@@ -1,13 +1,24 @@
 #' solveCoord(coord1, coord2, xmax, ymax)
 #'
-#' Given two sets of coordinates (coord1 and coord2), and the maximum x and y values (xmax, ymax),
-#' this function calculates cos(angle), sin(angle), dx, and dy by solving a system of equations.
+#' This function calculates the raw transformation parameters (`cos(angle)`, `sin(angle)`, `dx`, and `dy`)
+#' required to align two sets of coordinates. It does this by solving an overdetermined system of equations,
+#' optimizing the transformation to minimize the difference between the transformed coordinates.
 #'
-#' @param coord1 
-#' @param coord2 
-#' @param xmax 
-#' @param ymax 
-#' @return raw transformation parameters 
+#' @param coord1 A list of coordinates representing the target points. 
+#'   Should be a list with components `x` and `y`, each containing numeric vectors of the same length.
+#' @param coord2 A list of coordinates representing the source points.
+#'   Should be a list with components `x` and `y`, each containing numeric vectors of the same length.
+#' @param xmax Numeric. The maximum value for the x-dimension, used for centering the coordinates.
+#' @param ymax Numeric. The maximum value for the y-dimension, used for centering the coordinates.
+#' 
+#' @return A named numeric vector with the estimated transformation parameters:
+#' \describe{
+#'   \item{coseno}{The cosine of the rotation angle.}
+#'   \item{seno}{The sine of the rotation angle.}
+#'   \item{dx}{The x-translation component.}
+#'   \item{dy}{The y-translation component.}
+#' }
+#'
 #' @export
 solveCoord <- function(coord1, coord2, xmax, ymax) {
   cx <- xmax / 2
@@ -47,13 +58,33 @@ solveCoord <- function(coord1, coord2, xmax, ymax) {
 
 #' calcParameters(solution, xmax, ymax)
 #'
-#' Given the solution and the image dimensions (xmax, ymax),
-#' this function calculates all necessary parameters for use in semla functions.
+#' This function takes a set of raw transformation parameters and the dimensions of the image
+#' to calculate the complete set of transformation parameters needed for functions in the **semla** package.
+#'
+#' @param solution A named numeric vector containing the raw transformation parameters, typically
+#'   the result from the `solveCoord()` function. Must include at least:
+#'   \describe{
+#'     \item{coseno}{The cosine of the rotation angle.}
+#'     \item{seno}{The sine of the rotation angle.}
+#'     \item{dx}{The x-translation component.}
+#'     \item{dy}{The y-translation component.}
+#'     \item{e}{The scaling factor (optional, default is 1).}
+#'     \item{mirrorx}{Mirror flag for the x-axis (optional, default is 0).}
+#'     \item{mirrory}{Mirror flag for the y-axis (optional, default is 0).}
+#'   }
+#' @param xmax Numeric. The maximum value for the x-dimension, used to scale the translation.
+#' @param ymax Numeric. The maximum value for the y-dimension, used to scale the translation.
 #' 
-#' @param solution 
-#' @param xmax 
-#' @param ymax 
-#' @return transformation parameters
+#' @return A named numeric vector containing the calculated transformation parameters:
+#' \describe{
+#'   \item{angulo}{The rotation angle in degrees.}
+#'   \item{trx}{The x-translation component, normalized by `xmax`.}
+#'   \item{try}{The y-translation component, normalized by `ymax` (note the sign inversion).}
+#'   \item{e}{The scaling factor.}
+#'   \item{mirrorx}{Mirror flag for the x-axis.}
+#'   \item{mirrory}{Mirror flag for the y-axis.}
+#' }
+#'
 #' @export
 calcParameters <- function(solution, xmax, ymax) {
   # Calculate angles and restrict cosine and sine values to the range [-1, 1]
@@ -88,14 +119,34 @@ calcParameters <- function(solution, xmax, ymax) {
 
 #' calcNewCoord(coord, sol, xmax, ymax)
 #' 
-#' Given the original coordinates (coord), calculated transformation parameters (sol),
-#' and image dimensions (xmax, ymax), this function calculates the new transformed coordinates.
+#' This function applies a series of geometric transformations (mirroring, centering, rotation, and translation)
+#' to a set of original coordinates based on precomputed transformation parameters and image dimensions.
 #' 
-#' @param coord original coordinates
-#' @param sol calculated transformation parameters
-#' @param xmax image dimensions
-#' @param ymax image dimensions
-#' @return new coordinates matrix
+#' @param coord A list containing the original coordinates to be transformed. 
+#'   Typically includes two elements:
+#'   \describe{
+#'     \item{x}{A numeric vector of x-coordinates.}
+#'     \item{y}{A numeric vector of y-coordinates.}
+#'   }
+#' @param sol A named numeric vector containing the transformation parameters, usually generated
+#'   by the `calcParameters()` function. Must include:
+#'   \describe{
+#'     \item{coseno}{The cosine of the rotation angle.}
+#'     \item{seno}{The sine of the rotation angle.}
+#'     \item{dx}{The x-translation component.}
+#'     \item{dy}{The y-translation component.}
+#'     \item{mirrorx}{Mirror flag for the x-axis (1 for mirrored, 0 otherwise).}
+#'     \item{mirrory}{Mirror flag for the y-axis (1 for mirrored, 0 otherwise).}
+#'   }
+#' @param xmax Numeric. The maximum x-dimension of the image, used for centering.
+#' @param ymax Numeric. The maximum y-dimension of the image, used for centering.
+#' 
+#' @return A list containing the transformed coordinates, with the same structure as the input `coord`:
+#' \describe{
+#'   \item{x}{A numeric vector of transformed x-coordinates.}
+#'   \item{y}{A numeric vector of transformed y-coordinates.}
+#' }
+#' 
 #' @export
 calcNewCoord <- function(coord, sol, xmax, ymax) {
   cx <- xmax / 2
@@ -134,12 +185,14 @@ calcNewCoord <- function(coord, sol, xmax, ymax) {
 
 #' calcScal(coord1, coord2)
 #' 
-#' Calculates the scale factor based on the coordinates of a reference image and the target image.
+#' Calculate the scale factor between two sets of coordinates.
 #' 
-#' @param coord1 set of coordinates1
-#' @param coord2 set of coordinates2
-#' @return scalefactor
-#' @import IMIFA
+#' This function computes the optimal scale factor that minimizes the difference
+#' between two sets of coordinates (coord1 and coord2) using a Brent optimization method.
+#'
+#' @param coord1 A list with named components 'x' and 'y', representing the first set of coordinates.
+#' @param coord2 A list with named components 'x' and 'y', representing the second set of coordinates.
+#' @return A numeric value representing the optimal scale factor.
 #' @export
 calcScal <- function(coord1, coord2) {
   fn <- function(x){
@@ -161,13 +214,25 @@ calcScal <- function(coord1, coord2) {
 
 #' resultProcrustes(proc, mirrorx, mirrory, scale)
 #' 
-#' Get the results of Procrustes
+#' Extracts the key transformation parameters from a Procrustes analysis result,
+#' including rotation, translation, reflection (mirroring), and scaling.
 #' 
-#' @param proc Procrustes results
-#' @param mirrorx  TRUE or FALSE
-#' @param mirrory TRUE or FALSE
-#' @param scale TRUE or FALSE
-#' @return solucion
+#' @param proc A list containing the results of a Procrustes analysis. Expected to have elements:
+#'   - `R`: a rotation matrix,
+#'   - `t`: a translation vector,
+#'   - `d`: a scaling factor (distance).
+#' @param mirrorx Logical; whether to apply reflection along the x-axis.
+#' @param mirrory Logical; whether to apply reflection along the y-axis.
+#' @param scale Logical; whether to apply scaling.
+#' @return A named numeric vector with the following elements:
+#'   - `coseno`: cosine of the rotation angle,
+#'   - `seno`: sine of the rotation angle,
+#'   - `dx`: translation along the x-axis,
+#'   - `dy`: translation along the y-axis,
+#'   - `mirrorx`: reflection flag on the x-axis,
+#'   - `mirrory`: reflection flag on the y-axis,
+#'   - `e`: scaling factor (1 if `scale` is FALSE).
+#'
 #' @export
 resultProcrustes <- function(proc, mirrorx, mirrory, scale) {
   coseno <- proc$R[1,1]
@@ -183,11 +248,15 @@ resultProcrustes <- function(proc, mirrorx, mirrory, scale) {
   
 #' STIMA(object, mode, scale)
 #' 
-#' Calculates the scale factor based on the coordinates of a reference image and the target image.
+#' @param object A Seurat object with merged slices/samples containing spatial and image data.
+#' @param mode Character. Alignment mode to use. One of "GTEM", "procrustes", or "RVSSimageJ".
+#'   - "GTEM": Geometric transformations without scaling.
+#'   - "procrustes": Uses Procrustes analysis with optional scaling.
+#'   - "RVSSimageJ": Uses ImageJ Register Virtual Stack Slices plugin for manual alignment.
+#' @param scale Logical. Whether to compute scaling during alignment (only applies to "procrustes" and "RVSSimageJ" modes).
+#'
+#' @return A Seurat object updated with alignment transformations.
 #' 
-#' @param object first object with the slices/samples merged together
-#' @param mode GTEM, procrustes, RVSSimageJ
-#' @param scale TRUE or FALSE
 #' @return object.seurat aligned
 #' @import semla
 #' @import Seurat

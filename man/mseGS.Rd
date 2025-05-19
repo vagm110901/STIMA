@@ -7,12 +7,12 @@
 mseGS(image1, image2)
 }
 \arguments{
-\item{image1}{image1}
+\item{image1}{A 3D array representing the first RGB image.}
 
-\item{image2}{image2}
+\item{image2}{A 3D array representing the second RGB image.}
 }
 \value{
-error
+Numeric value representing the grayscale MSE between the two images.
 }
 \description{
 Compute the grayscale MSE between two images by first converting them to grayscale.

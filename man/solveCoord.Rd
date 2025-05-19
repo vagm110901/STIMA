@@ -7,18 +7,27 @@
 solveCoord(coord1, coord2, xmax, ymax)
 }
 \arguments{
-\item{coord1}{}
+\item{coord1}{A list of coordinates representing the target points.
+Should be a list with components \code{x} and \code{y}, each containing numeric vectors of the same length.}
 
-\item{coord2}{}
+\item{coord2}{A list of coordinates representing the source points.
+Should be a list with components \code{x} and \code{y}, each containing numeric vectors of the same length.}
 
-\item{xmax}{}
+\item{xmax}{Numeric. The maximum value for the x-dimension, used for centering the coordinates.}
 
-\item{ymax}{}
+\item{ymax}{Numeric. The maximum value for the y-dimension, used for centering the coordinates.}
 }
 \value{
-raw transformation parameters
+A named numeric vector with the estimated transformation parameters:
+\describe{
+\item{coseno}{The cosine of the rotation angle.}
+\item{seno}{The sine of the rotation angle.}
+\item{dx}{The x-translation component.}
+\item{dy}{The y-translation component.}
+}
 }
 \description{
-Given two sets of coordinates (coord1 and coord2), and the maximum x and y values (xmax, ymax),
-this function calculates cos(angle), sin(angle), dx, and dy by solving a system of equations.
+This function calculates the raw transformation parameters (\code{cos(angle)}, \code{sin(angle)}, \code{dx}, and \code{dy})
+required to align two sets of coordinates. It does this by solving an overdetermined system of equations,
+optimizing the transformation to minimize the difference between the transformed coordinates.
 }

@@ -7,16 +7,34 @@
 calcParameters(solution, xmax, ymax)
 }
 \arguments{
-\item{solution}{}
+\item{solution}{A named numeric vector containing the raw transformation parameters, typically
+the result from the \code{solveCoord()} function. Must include at least:
+\describe{
+\item{coseno}{The cosine of the rotation angle.}
+\item{seno}{The sine of the rotation angle.}
+\item{dx}{The x-translation component.}
+\item{dy}{The y-translation component.}
+\item{e}{The scaling factor (optional, default is 1).}
+\item{mirrorx}{Mirror flag for the x-axis (optional, default is 0).}
+\item{mirrory}{Mirror flag for the y-axis (optional, default is 0).}
+}}
 
-\item{xmax}{}
+\item{xmax}{Numeric. The maximum value for the x-dimension, used to scale the translation.}
 
-\item{ymax}{}
+\item{ymax}{Numeric. The maximum value for the y-dimension, used to scale the translation.}
 }
 \value{
-transformation parameters
+A named numeric vector containing the calculated transformation parameters:
+\describe{
+\item{angulo}{The rotation angle in degrees.}
+\item{trx}{The x-translation component, normalized by \code{xmax}.}
+\item{try}{The y-translation component, normalized by \code{ymax} (note the sign inversion).}
+\item{e}{The scaling factor.}
+\item{mirrorx}{Mirror flag for the x-axis.}
+\item{mirrory}{Mirror flag for the y-axis.}
+}
 }
 \description{
-Given the solution and the image dimensions (xmax, ymax),
-this function calculates all necessary parameters for use in semla functions.
+This function takes a set of raw transformation parameters and the dimensions of the image
+to calculate the complete set of transformation parameters needed for functions in the \strong{semla} package.
 }

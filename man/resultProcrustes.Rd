@@ -7,17 +7,32 @@
 resultProcrustes(proc, mirrorx, mirrory, scale)
 }
 \arguments{
-\item{proc}{Procrustes results}
+\item{proc}{A list containing the results of a Procrustes analysis. Expected to have elements:
+\itemize{
+\item \code{R}: a rotation matrix,
+\item \code{t}: a translation vector,
+\item \code{d}: a scaling factor (distance).
+}}
 
-\item{mirrorx}{TRUE or FALSE}
+\item{mirrorx}{Logical; whether to apply reflection along the x-axis.}
 
-\item{mirrory}{TRUE or FALSE}
+\item{mirrory}{Logical; whether to apply reflection along the y-axis.}
 
-\item{scale}{TRUE or FALSE}
+\item{scale}{Logical; whether to apply scaling.}
 }
 \value{
-solucion
+A named numeric vector with the following elements:
+\itemize{
+\item \code{coseno}: cosine of the rotation angle,
+\item \code{seno}: sine of the rotation angle,
+\item \code{dx}: translation along the x-axis,
+\item \code{dy}: translation along the y-axis,
+\item \code{mirrorx}: reflection flag on the x-axis,
+\item \code{mirrory}: reflection flag on the y-axis,
+\item \code{e}: scaling factor (1 if \code{scale} is FALSE).
+}
 }
 \description{
-Get the results of Procrustes
+Extracts the key transformation parameters from a Procrustes analysis result,
+including rotation, translation, reflection (mirroring), and scaling.
 }

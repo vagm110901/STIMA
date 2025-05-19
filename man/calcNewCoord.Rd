@@ -7,18 +7,36 @@
 calcNewCoord(coord, sol, xmax, ymax)
 }
 \arguments{
-\item{coord}{original coordinates}
+\item{coord}{A list containing the original coordinates to be transformed.
+Typically includes two elements:
+\describe{
+\item{x}{A numeric vector of x-coordinates.}
+\item{y}{A numeric vector of y-coordinates.}
+}}
 
-\item{sol}{calculated transformation parameters}
+\item{sol}{A named numeric vector containing the transformation parameters, usually generated
+by the \code{calcParameters()} function. Must include:
+\describe{
+\item{coseno}{The cosine of the rotation angle.}
+\item{seno}{The sine of the rotation angle.}
+\item{dx}{The x-translation component.}
+\item{dy}{The y-translation component.}
+\item{mirrorx}{Mirror flag for the x-axis (1 for mirrored, 0 otherwise).}
+\item{mirrory}{Mirror flag for the y-axis (1 for mirrored, 0 otherwise).}
+}}
 
-\item{xmax}{image dimensions}
+\item{xmax}{Numeric. The maximum x-dimension of the image, used for centering.}
 
-\item{ymax}{image dimensions}
+\item{ymax}{Numeric. The maximum y-dimension of the image, used for centering.}
 }
 \value{
-new coordinates matrix
+A list containing the transformed coordinates, with the same structure as the input \code{coord}:
+\describe{
+\item{x}{A numeric vector of transformed x-coordinates.}
+\item{y}{A numeric vector of transformed y-coordinates.}
+}
 }
 \description{
-Given the original coordinates (coord), calculated transformation parameters (sol),
-and image dimensions (xmax, ymax), this function calculates the new transformed coordinates.
+This function applies a series of geometric transformations (mirroring, centering, rotation, and translation)
+to a set of original coordinates based on precomputed transformation parameters and image dimensions.
 }

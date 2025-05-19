@@ -5,7 +5,7 @@
 #' @param object.seurat A Seurat object after the alignment containing the data to be split. 
 #' @param split_by A character string indicating the metadata field to split the Seurat object by. Default is "name".
 #' @param mode A character string indicating the deconvolution method to be used. Options are "GTEM", "procrustes", or "RVSSimageJ". Default is "GTEM". 
-#' @return A list of Seurat objects, each containing a reference and two problematic objects for deconvolution analysis.
+#' @return NULL (side effect: saves lists of Seurat objects to files)
 #' @import Seurat
 #' @export 
 createDeconvolutionLists <- function(object.seurat, 
@@ -61,6 +61,44 @@ createDeconvolutionLists <- function(object.seurat,
     saveRDS(listaObjDeconv, paste0(saveDir, "objectAligned_merge_",mode,"_list_im",i,".rds"))
   }
 }
+
+
+#' createReferenceIfNeeded(reference) 
+#'
+#' Checks if the reference for RCTD has been created correctly, and generates it if not.
+#' 
+#' @param reference object with the single-cell / single-nucelus reference for the deconvolution.
+#' @return reference object prepared for the deconvolution with RCTD
+#' @import spacexr
+createReferenceIfNeeded <- function(reference) {
+  if (inherits(reference, "Reference") && 
+      all(c("counts", "cell_types", "nUMI") %in% slotNames(reference1))) {
+    message("The reference is correctly loaded and structured.")
+
+  } else {
+    message("The loaded file is not a valid Reference object. Recreating...")
+
+    # 1. counts: A matrix (or dgCmatrix) representing Digital Gene Expression (DGE). 
+    # Rownames should be genes and colnames represent barcodes/cell names. 
+    # Counts should be untransformed count-level data.
+    counts <- reference@assays$RNA@layers$counts
+
+    # 2. cell_types: A named (by cell barcode) factor of cell type for each cell. 
+    # The ‘levels’ of the factor would be the possible cell type identities.
+    cell_types <- factor(reference@meta.data$top_level_annotation)
+    names(cell_types) <- colnames(reference)
+
+    # 3. nUMI: Optional, a named (by cell barcode) list of total counts or UMI’s 
+    # appearing at each pixel. If not provided, nUMI will be assumed to be the 
+    # total counts appeallring on each pixel.
+    nUMI <- colSums(counts)
+
+    reference <- Reference(counts, cell_types, nUMI, n_max_cells = 32000)
+  }
+
+  return(reference)  
+}
+
 
 
 #' as_AssayObject(object)
@@ -156,6 +194,7 @@ as_AssayObject_complete <- function(object) {
 #' Performs deconvolution using the RCTD package for a list of reference-NOTalign-YESalign.
 #' 
 #' @param object.list A list of Seurat objects containing the data to be deconvoluted.
+#' @param reference Object with the single-cell / single-nucelus reference for the deconvolution.
 #' @param im A numeric value indicating the image number.
 #' @param mode A character string indicating the deconvolution method to be used. Options are "GTEM", "procrustes", or "RVSSimageJ". Default is "GTEM".
 #' @return A list of Seurat objects with deconvolution results added as assays.
@@ -163,9 +202,8 @@ as_AssayObject_complete <- function(object) {
 #' @import spacexr
 #' @import Matrix
 #' @import data.table
-#' @import spacexr
 #' @export
-deconvolutionRCTD <- function(object.list, im,
+deconvolutionRCTD <- function(object.list, reference, im,
                               mode = c("GTEM", "procrustes", "RVSSimageJ")) {
   mode <- match.arg(mode)
 
@@ -173,6 +211,8 @@ deconvolutionRCTD <- function(object.list, im,
     dir.create("./results/", recursive = TRUE)
   }
   saveDir <- "./results/"
+
+  reference <- createReferenceIfNeeded(reference)
 
   for (i in 1:length(object.list)) {
     objectST <- object.list[[i]]
@@ -241,7 +281,6 @@ deconvolutionRCTD <- function(object.list, im,
 #' @import spacexr
 #' @import Matrix
 #' @import data.table
-#' @import spacexr
 #' @export
 deconvolutionRCTD_mergeFiles <- function(modes = c("GTEM", "procrustes", "RVSSimageJ"),
                                          ims = c("2","3","4")) {
@@ -292,7 +331,6 @@ deconvolutionRCTD_mergeFiles <- function(modes = c("GTEM", "procrustes", "RVSSim
 #' @import ggpubr
 #' @import dplyr
 #' @import tidyr
-#' @export
 matrixComparison <- function(listaObjAnnot) {
   library(data.table)
   # Build empty matrixes
@@ -495,6 +533,7 @@ matrixComparison <- function(listaObjAnnot) {
 #' @import foreach
 #' @import doParallel
 #' @import stats
+#' @import parallel
 #' @export
 calculateRVcoeff <- function(modes = c("GTEM", "procrustes", "RVSSimageJ"),
                              ims = c("2","3","4")) {

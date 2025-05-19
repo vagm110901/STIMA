@@ -18,7 +18,7 @@ createDeconvolutionLists(
 \item{mode}{A character string indicating the deconvolution method to be used. Options are "GTEM", "procrustes", or "RVSSimageJ". Default is "GTEM".}
 }
 \value{
-A list of Seurat objects, each containing a reference and two problematic objects for deconvolution analysis.
+NULL (side effect: saves lists of Seurat objects to files)
 }
 \description{
 Creates a list of Seurat objects for deconvolution analysis.

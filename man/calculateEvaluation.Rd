@@ -9,24 +9,24 @@ patientType = c('unique','multiple'))}
 calculateEvaluation(
   objeto.seurat,
   mode = c("GTEM", "procrustes", "RVSSimageJ"),
-  listaCoordenadasNEW = None,
-  listaCoordenadas = None,
+  listaCoordenadasNEW = NULL,
+  listaCoordenadas = NULL,
   patientType = c("unique", "multiple")
 )
 }
 \arguments{
-\item{listaCoordenadasNEW}{}
+\item{objeto.seurat}{Seurat object containing images and coordinates.}
 
-\item{listaCoordenadas}{}
+\item{mode}{Evaluation mode: one of "GTEM", "procrustes", or "RVSSimageJ".}
 
-\item{patientType}{}
+\item{listaCoordenadasNEW}{List of new coordinates (optional, used mainly if mode != "RVSSimageJ").}
 
-\item{listaRawImages}{}
+\item{listaCoordenadas}{List of original coordinates (optional, used mainly if mode != "RVSSimageJ").}
 
-\item{listaTransImages}{}
+\item{patientType}{Patient type, affecting region size ("unique" or "multiple").}
 }
 \value{
-Evaluation
+Evaluation results as a list.
 }
 \description{
 Evaluate the alignment of images using various metrics (MSE, SSIM, etc.) for both raw and transformed images.

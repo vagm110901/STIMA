@@ -7,12 +7,12 @@
 mse(image1, image2)
 }
 \arguments{
-\item{image1}{image1}
+\item{image1}{A 3D array representing the first image (height x width x channels).}
 
-\item{image2}{image2}
+\item{image2}{A 3D array representing the second image (same dimensions as image1).}
 }
 \value{
-total_error
+Numeric value representing the average MSE across RGB channels.
 }
 \description{
 Calculate Mean Squared Error (MSE) between two images by comparing pixel values.

@@ -7,13 +7,17 @@
 calcScal(coord1, coord2)
 }
 \arguments{
-\item{coord1}{set of coordinates1}
+\item{coord1}{A list with named components 'x' and 'y', representing the first set of coordinates.}
 
-\item{coord2}{set of coordinates2}
+\item{coord2}{A list with named components 'x' and 'y', representing the second set of coordinates.}
 }
 \value{
-scalefactor
+A numeric value representing the optimal scale factor.
 }
 \description{
-Calculates the scale factor based on the coordinates of a reference image and the target image.
+Calculate the scale factor between two sets of coordinates.
+}
+\details{
+This function computes the optimal scale factor that minimizes the difference
+between two sets of coordinates (coord1 and coord2) using a Brent optimization method.
 }

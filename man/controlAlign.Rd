@@ -7,16 +7,15 @@
 controlAlign(image1)
 }
 \arguments{
-\item{image1}{image1}
-
-\item{image2}{image2}
-
-\item{listaCoordenadas}{list of coordinates}
-
-\item{nIm}{list of image indices}
+\item{image1}{An image array (RGB or hex) used as reference.}
 }
 \value{
-solution
+A list with the following control results:
+\itemize{
+\item \code{Positive control solution}: Metrics when image is compared to itself.
+\item \code{Negative control solution}: Metrics when image is compared to a random negative control image.
+\item \code{Movement control solution}: Metrics when image is compared to a shifted version.
+}
 }
 \description{
 Evaluate alignment metrics for a reference image with various controls.

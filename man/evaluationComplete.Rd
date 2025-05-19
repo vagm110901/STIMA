@@ -15,22 +15,40 @@ evaluationComplete(
 )
 }
 \arguments{
-\item{listaCoordenadasNEW}{}
+\item{listaCoordenadasNEW}{List of coordinate data for transformed images.}
 
-\item{listaCoordenadas}{}
+\item{listaCoordenadas}{List of coordinate data for raw images.}
 
-\item{listaRawImages}{}
+\item{listaRawImages}{List of raw image arrays (typically 3D arrays).}
 
-\item{listaTransImages}{}
+\item{listaTransImages}{List of transformed image arrays.}
 
-\item{patientType}{changes the size of the region to be evaluated (feel free to change the values if they do not fit your data correctly)
-(it was developed to fit with the example data)
-unique: 200x200
-multiple: 310x200}
+\item{patientType}{Character specifying the patient type, affecting evaluation region size.
+Choices are \code{"unique"} (region ~200x200 pixels) or \code{"multiple"} (region ~310x200 pixels).
+Default is \code{c("unique", "multiple")}, with \code{"unique"} selected by default.}
 }
 \value{
-Evaluation
+A nested list with alignment evaluation metrics for both raw and transformed images, organized as:
+\describe{
+\item{control}{List of control alignment results for transformed images.}
+\item{original}{List of raw image comparisons including:
+\itemize{
+\item \code{max_pixels}: Evaluations on largest common square submatrix.
+\item \code{sameRegion_samePoint}: Evaluations on same region and same reference point.
+\item \code{commonRegion_differentPoint}: Evaluations on common region but different reference points.
+}
+}
+\item{transformed}{Same structure as \code{original} but for transformed images.}
+}
 }
 \description{
 Evaluate the alignment of images using various metrics (MSE, SSIM, etc.) for both raw and transformed images.
+}
+\details{
+The evaluation covers:
+\itemize{
+\item Control alignment for transformed images
+\item Raw images comparisons using largest common square submatrix, same region & same point, and common region & different point
+\item Transformed images comparisons under the same scenarios as raw images
+}
 }

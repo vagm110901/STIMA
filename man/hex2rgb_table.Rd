@@ -7,10 +7,10 @@
 hex2rgb_table(objetHex)
 }
 \arguments{
-\item{objetHex}{}
+\item{objetHex}{A matrix or vector of hexadecimal color strings.}
 }
 \value{
-rgba_array
+rgba_array A 3D array of integers with dimensions (rows, columns, 4), containing RGBA color channels.
 }
 \description{
 Convert hexadecimal color data into an RGB array with dimensions (x, y, 4).

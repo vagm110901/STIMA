@@ -7,12 +7,12 @@
 EuclDist(listaCoordenadas, nIm)
 }
 \arguments{
-\item{listaCoordenadas}{list of coordinates}
+\item{listaCoordenadas}{A list where each element contains a list with elements $x and $y representing coordinates.}
 
-\item{nIm}{list of image indices}
+\item{nIm}{A list or vector of length 2 with indices of the images to compare.}
 }
 \value{
-distance
+Numeric value representing the Euclidean distance between the two coordinate sets.
 }
 \description{
 Calculate Euclidean distance between two sets of coordinates.

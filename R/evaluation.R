@@ -3,8 +3,8 @@
 #' Convert hexadecimal color data into an RGB array with dimensions (x, y, 4).
 #' The function organizes color values (R, G, B, Alpha) into a 3D array.
 #' 
-#' @param objetHex  
-#' @return rgba_array
+#' @param objetHex A matrix or vector of hexadecimal color strings.  
+#' @return rgba_array A 3D array of integers with dimensions (rows, columns, 4), containing RGBA color channels.
 #' @import SpatialPack
 #' @import imager
 hex2rgb_table <- function(objetHex) {
@@ -29,8 +29,8 @@ hex2rgb_table <- function(objetHex) {
 #' Convert hexadecimal color data into an RGB array with dimensions (x, y, 4), normalizes RGB values to a 0-1 range.
 #' The function organizes color values (R, G, B, Alpha) into a 3D array.
 #' 
-#' @param objetHex 
-#' @return rgba_array_norm
+#' @param objetHex A matrix or vector of hexadecimal color strings.  
+#' @return rgba_array A 3D array of integers with dimensions (rows, columns, 4), containing RGBA color channels.
 #' @import SpatialPack
 #' @import imager
 hex2rgb_table_norm <- function(objetHex) {
@@ -55,8 +55,8 @@ hex2rgb_table_norm <- function(objetHex) {
 #' 
 #' Generates the 0-255 RGB values for an image with RGB normalized values
 #' 
-#' @param objetRGB 
-#' @return objetRGB
+#' @param objetRGB A numeric array of RGB values normalized between 0 and 1.
+#' @return An integer array with RGB values scaled to [0, 255].
 #' @import SpatialPack
 rgb_table_norm2rgb_table <- function(objetRGB) {
   objetRGB <- round(objetRGB * 255)
@@ -70,9 +70,9 @@ rgb_table_norm2rgb_table <- function(objetRGB) {
 #' 
 #' Calculate Mean Squared Error (MSE) between two images by comparing pixel values.
 #' 
-#' @param image1 image1
-#' @param image2 image2
-#' @return total_error
+#' @param image1 A 3D array representing the first image (height x width x channels).
+#' @param image2 A 3D array representing the second image (same dimensions as image1).
+#' @return Numeric value representing the average MSE across RGB channels.
 #' @import SpatialPack
 #' @import imager
 mse <- function(image1, image2) {
@@ -94,9 +94,9 @@ mse <- function(image1, image2) {
 #' 
 #' Compute the grayscale MSE between two images by first converting them to grayscale.
 #' 
-#' @param image1 image1
-#' @param image2 image2
-#' @return error
+#' @param image1 A 3D array representing the first RGB image.
+#' @param image2 A 3D array representing the second RGB image.
+#' @return Numeric value representing the grayscale MSE between the two images.
 #' @import SpatialPack
 #' @import imager
 mseGS <- function(image1, image2) {
@@ -112,9 +112,9 @@ mseGS <- function(image1, image2) {
 #' 
 #' Calculate Euclidean distance between two sets of coordinates.
 #' 
-#' @param listaCoordenadas list of coordinates
-#' @param nIm list of image indices
-#' @return distance
+#' @param listaCoordenadas A list where each element contains a list with elements $x and $y representing coordinates.
+#' @param nIm A list or vector of length 2 with indices of the images to compare.
+#' @return Numeric value representing the Euclidean distance between the two coordinate sets.
 #' @import SpatialPack
 EuclDist <- function(listaCoordenadas, nIm) {
   # Retrieve coordinates for images i and j
@@ -134,11 +134,20 @@ EuclDist <- function(listaCoordenadas, nIm) {
 #' 
 #' Evaluate alignment between two images using various metrics (MSE, SSIM, etc.).
 #' 
-#' @param image1 image1
-#' @param image2 image2
-#' @param listaCoordenadas list of coordinates
-#' @param nIm list of image indices
-#' @return solution
+#' @param image1 An image array (RGB or hex) to be compared.
+#' @param image2 An image array (RGB or hex) to be compared.
+#' @param listaCoordenadas A list containing coordinates for Euclidean distance calculation.
+#' @param nIm A list with indices of images in `listaCoordenadas` to compare.
+#'
+#' @return A named list containing:
+#' \itemize{
+#'   \item \code{mse_value}: Mean Squared Error between the two images.
+#'   \item \code{mse_gray_value}: Grayscale Mean Squared Error.
+#'   \item \code{rmse_value}: Root Mean Squared Error.
+#'   \item \code{ssim_value}: Structural Similarity Index.
+#'   \item \code{Eucl_value}: Euclidean distance between the coordinate sets.
+#' }
+#'
 #' @import SpatialPack
 #' @import imager
 evalAlign <- function(image1, image2, listaCoordenadas, nIm) {
@@ -172,11 +181,15 @@ evalAlign <- function(image1, image2, listaCoordenadas, nIm) {
 #' 
 #' Evaluate alignment metrics for a reference image with various controls.
 #' 
-#' @param image1 image1
-#' @param image2 image2
-#' @param listaCoordenadas list of coordinates
-#' @param nIm list of image indices
-#' @return solution
+#' @param image1 An image array (RGB or hex) used as reference.
+#'
+#' @return A list with the following control results:
+#' \itemize{
+#'   \item \code{Positive control solution}: Metrics when image is compared to itself.
+#'   \item \code{Negative control solution}: Metrics when image is compared to a random negative control image.
+#'   \item \code{Movement control solution}: Metrics when image is compared to a shifted version.
+#' }
+#'
 #' @import SpatialPack
 #' @import imager
 #' @import jpeg
@@ -234,16 +247,33 @@ controlAlign <- function(image1) {
 #'                    patientType = c('unique','multiple'))
 #' 
 #' Evaluate the alignment of images using various metrics (MSE, SSIM, etc.) for both raw and transformed images.
-#' 
-#' @param listaCoordenadasNEW 
-#' @param listaCoordenadas 
-#' @param listaRawImages 
-#' @param listaTransImages 
-#' @param patientType changes the size of the region to be evaluated (feel free to change the values if they do not fit your data correctly) 
-#' (it was developed to fit with the example data)
-#' unique: 200x200
-#' multiple: 310x200
-#' @return Evaluation
+#'
+#' The evaluation covers:
+#' - Control alignment for transformed images
+#' - Raw images comparisons using largest common square submatrix, same region & same point, and common region & different point
+#' - Transformed images comparisons under the same scenarios as raw images
+#'  
+#' @param listaCoordenadasNEW List of coordinate data for transformed images.
+#' @param listaCoordenadas List of coordinate data for raw images.
+#' @param listaRawImages List of raw image arrays (typically 3D arrays).
+#' @param listaTransImages List of transformed image arrays.
+#' @param patientType Character specifying the patient type, affecting evaluation region size. 
+#'   Choices are \code{"unique"} (region ~200x200 pixels) or \code{"multiple"} (region ~310x200 pixels).
+#'   Default is \code{c("unique", "multiple")}, with \code{"unique"} selected by default.
+#'
+#' @return A nested list with alignment evaluation metrics for both raw and transformed images, organized as:
+#' \describe{
+#'   \item{control}{List of control alignment results for transformed images.}
+#'   \item{original}{List of raw image comparisons including:
+#'     \itemize{
+#'       \item \code{max_pixels}: Evaluations on largest common square submatrix.
+#'       \item \code{sameRegion_samePoint}: Evaluations on same region and same reference point.
+#'       \item \code{commonRegion_differentPoint}: Evaluations on common region but different reference points.
+#'     }
+#'   }
+#'   \item{transformed}{Same structure as \code{original} but for transformed images.}
+#' }
+#'
 #' @import SpatialPack
 #' @import imager
 evaluationComplete <- function(listaCoordenadasNEW, listaCoordenadas,
@@ -599,17 +629,17 @@ evaluationComplete <- function(listaCoordenadasNEW, listaCoordenadas,
 #' 
 #' Evaluate the alignment of images using various metrics (MSE, SSIM, etc.) for both raw and transformed images.
 #' 
-#' @param listaCoordenadasNEW 
-#' @param listaCoordenadas 
-#' @param listaRawImages 
-#' @param listaTransImages 
-#' @param patientType 
-#' @return Evaluation
+#' @param objeto.seurat Seurat object containing images and coordinates.
+#' @param mode Evaluation mode: one of "GTEM", "procrustes", or "RVSSimageJ".
+#' @param listaCoordenadasNEW List of new coordinates (optional, used mainly if mode != "RVSSimageJ").
+#' @param listaCoordenadas List of original coordinates (optional, used mainly if mode != "RVSSimageJ").
+#' @param patientType Patient type, affecting region size ("unique" or "multiple").
+#' @return Evaluation results as a list.
 #' @import SpatialPack
 #' @import imager
 #' @export 
 calculateEvaluation <- function(objeto.seurat, mode = c("GTEM", "procrustes", "RVSSimageJ"), 
-                                listaCoordenadasNEW = None, listaCoordenadas = None, 
+                                listaCoordenadasNEW = NULL, listaCoordenadas = NULL, 
                                 patientType = c('unique','multiple')) {
 
   patientType <- match.arg(patientType)

@@ -6,12 +6,15 @@
 \usage{
 deconvolutionRCTD(
   object.list,
+  reference,
   im,
   mode = c("GTEM", "procrustes", "RVSSimageJ")
 )
 }
 \arguments{
 \item{object.list}{A list of Seurat objects containing the data to be deconvoluted.}
+
+\item{reference}{Object with the single-cell / single-nucelus reference for the deconvolution.}
 
 \item{im}{A numeric value indicating the image number.}
 

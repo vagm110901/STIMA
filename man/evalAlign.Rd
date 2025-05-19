@@ -7,16 +7,23 @@
 evalAlign(image1, image2, listaCoordenadas, nIm)
 }
 \arguments{
-\item{image1}{image1}
+\item{image1}{An image array (RGB or hex) to be compared.}
 
-\item{image2}{image2}
+\item{image2}{An image array (RGB or hex) to be compared.}
 
-\item{listaCoordenadas}{list of coordinates}
+\item{listaCoordenadas}{A list containing coordinates for Euclidean distance calculation.}
 
-\item{nIm}{list of image indices}
+\item{nIm}{A list with indices of images in \code{listaCoordenadas} to compare.}
 }
 \value{
-solution
+A named list containing:
+\itemize{
+\item \code{mse_value}: Mean Squared Error between the two images.
+\item \code{mse_gray_value}: Grayscale Mean Squared Error.
+\item \code{rmse_value}: Root Mean Squared Error.
+\item \code{ssim_value}: Structural Similarity Index.
+\item \code{Eucl_value}: Euclidean distance between the coordinate sets.
+}
 }
 \description{
 Evaluate alignment between two images using various metrics (MSE, SSIM, etc.).
