@@ -179,6 +179,7 @@ evalAlign <- function(image1, image2, listaCoordenadas, nIm) {
 #' @return solution
 #' @import SpatialPack
 #' @import imager
+#' @import jpeg
 controlAlign <- function(image1) { 
   # If needed, convert the image to RGB format.
   if (is.na(dim(image1)[3])) image1 <- hex2rgb_table(image1)

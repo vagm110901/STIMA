@@ -5,11 +5,7 @@
 \alias{STIMA}
 \title{STIMA}
 \usage{
-STIMA(
-  object,
-  mode = c("GTEM", "procrustes", "RVSSimageJ"),
-  scale = c(TRUE, FALSE)
-)
+STIMA(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = FALSE)
 }
 \arguments{
 \item{object}{first object with the slices/samples merged together}
