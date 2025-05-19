@@ -42,9 +42,9 @@ earlier was used.
 STIMA provides the following vignettes to better understand the
 functionality of the package:
 
-- [STIMA Usage](vignettes/STIMA_align_intrapatient.html): Guide on how
-  to use STIMA for aligning multiple slices. It covers three main
-  steps: 1) STIMA alignment, 2) Evaluation, and 3) Deconvolution.
+- [STIMA Usage](vignettes/STIMA_align_intrapatient.Rmd): Guide on how to
+  use STIMA for aligning multiple slices. It covers three main steps: 1)
+  STIMA alignment, 2) Evaluation, and 3) Deconvolution.
 - [Creating Seurat objects for intra-patient
   alignment](vignettes/Rscript_Yadav2023_Merge4Slices.Rmd): Instructions
   on how to load and merge multiple 10x Visium ST slices from the same
