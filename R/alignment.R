@@ -271,8 +271,12 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
   }
   saveDir <- "./results/"
 
+  x_dims <- sapply(object@images, function(img) { dim(img)[[1]] })
+
+  min_image_height <- as.numeric(min(x_dims))
+
   object.semla <- UpdateSeuratForSemla(object)
-  object.semla <- LoadImages(object.semla, image_height = 600)
+  object.semla <- LoadImages(object.semla, image_height = min_image_height)
 
   #ImagePlot(object.semla)
 
