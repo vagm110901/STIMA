@@ -267,7 +267,6 @@ resultProcrustes <- function(proc, mirrorx, mirrory, scale) {
 #' @import Seurat
 #' @import tibble
 #' @import reticulate
-#' @import Procrustes
 #' @export
 STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = FALSE) {
   mode <- match.arg(mode) 
@@ -756,7 +755,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
 
   if (mode == "RVSSimageJ") {
     saveObj <- list(alignedObj = object.seurat)
-  } else if (mode == "GTEM" | mode == "Procrustes") {
+  } else if (mode == "GTEM" | mode == "procrustes") {
     saveObj <- list(alignedObj = object.seurat,
                     listCoord = listaCoordenadas,
                     listCoordNew = listaCoordenadasNEW)
