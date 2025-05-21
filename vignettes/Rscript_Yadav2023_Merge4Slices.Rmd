@@ -11,8 +11,6 @@ vignette: >
 ## Loading required packages
 ```{r}
 #| label: packages
-library(STIMA)
-
 # Load essential libraries for Seurat, data visualization, and manipulation
 library(Seurat)
 library(SeuratObject)
@@ -130,10 +128,10 @@ for (i in seq_along(paciente19.list)) {
 }
 
 # Merge all slices from patient 19 into a single Seurat object
-paciente19.merge <- merge(x = paciente19.list[[1]], 
-                          y = paciente19.list[2:length(paciente19.list)], 
-                          add.cell.ids = slice_ids, 
-                          project = "VisiumPaciente19")
+paciente19.merge <- base::merge(x = paciente19.list[[1]], 
+                                y = paciente19.list[2:length(paciente19.list)], 
+                                add.cell.ids = slice_ids, 
+                                project = "VisiumPaciente19")
 
 # Rename the first slice in the merged object to avoid duplication issues
 names(paciente19.merge@images)[1] <- "slice1.1"

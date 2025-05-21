@@ -2,7 +2,7 @@
 #'
 #' Allows the user to select multiple points on the provided image by clicking on it.
 #'
-#' @param image 
+#' @param image Image where landmarks are selected 
 #' @return list containing the coordinates of the selected points with two elements: x and y.
 #' @import imager
 #' @export

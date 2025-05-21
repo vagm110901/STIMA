@@ -116,6 +116,7 @@ graph_cellTypesDeconvolution <- function(listaObjDeconv,
 #' 
 #' @param modes A character vector indicating the deconvolution methods to be used. Default is c("GTEM","procrustes","RVSSimageJ","PASTE2","STalign").
 #' @param patientType Type of patient data. Options are 'unique' or 'multiple'.
+#' @param colors Colors for the graphs
 #' @import ggplot2
 #' @import ggpubr
 #' @import tidyr

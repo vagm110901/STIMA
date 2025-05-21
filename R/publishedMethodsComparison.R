@@ -4,7 +4,7 @@
 #' Allows the user to select multiple points on the provided image by clicking on it.
 #' It uses the image of an object created by python (STalign or PASTE2).
 #'
-#' @param image  
+#' @param image Image where landmarks are selected 
 #' @return list containing the coordinates of the selected points with two elements: x and y.
 #' @import imager
 #' @export
@@ -323,6 +323,7 @@ createDeconvolutionListsPython <- function(object.seurat, object,
 #' alignmentSTalign(object)
 #' 
 #' @param object first object with the slices/samples merged together
+#' patientType Type of patient data. Options are 'unique' or 'multiple'.
 #' @import reticulate
 #' @export 
 alignmentSTalign <- function(object, patientType = c('unique','multiple')) {

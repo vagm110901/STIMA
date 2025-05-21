@@ -15,6 +15,8 @@ graph_evalMetrics(
 \item{modes}{A character vector indicating the deconvolution methods to be used. Default is c("GTEM","procrustes","RVSSimageJ","PASTE2","STalign").}
 
 \item{patientType}{Type of patient data. Options are 'unique' or 'multiple'.}
+
+\item{colors}{Colors for the graphs}
 }
 \description{
 graph_evalMetrics(modes = c("GTEM", "procrustes", "RVSSimageJ","PASTE2","STalign"), patientType = c('unique','multiple'))

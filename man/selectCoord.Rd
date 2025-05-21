@@ -7,7 +7,7 @@
 selectCoord(image)
 }
 \arguments{
-\item{image}{}
+\item{image}{Image where landmarks are selected}
 }
 \value{
 list containing the coordinates of the selected points with two elements: x and y.
