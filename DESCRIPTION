@@ -37,7 +37,15 @@ Imports:
     lme4,
     lmerTest,
     cowplot,
-    foreach
+    foreach,
+    Matrix,
+    data.table,
+    dplyr,
+    ggpubr,
+    gridExtra,
+    reshape2,
+    scales,
+    tidyr
 SystemRequirements: 
     Python (<= 3.13.1),
     ImageMagick++ (via conda: conda install -c conda-forge imagemagick), 
@@ -57,25 +65,17 @@ SystemRequirements:
     scipy
 Suggests: 
     testthat (>= 3.0.0),
-    tidyr,
-    gridExtra,
-    reshape2,
-    scales,
     SparseArray,
     grDevices,
     knitr,
     rmarkdown,
-    ggpubr,
     htmltools,
     vembedr,
     BiocManager,
     BiocGenerics,
-    Matrix,
     MatrixGenerics,
     matrixStats,
-    data.table,
     dbplyr,
-    dplyr,
     dtplyr,
     tibble (>= 3.2.1)
 Config/testthat/edition: 3
