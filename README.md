@@ -24,7 +24,7 @@ You can install STIMA from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("vagm110901/STIMA")
+remotes::install_git("https://github.com/vagm110901/STIMA.git")
 ```
 
 ⚠️ WARNING: If, during the installation of STIMA, R asks to update some

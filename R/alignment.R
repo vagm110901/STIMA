@@ -262,6 +262,7 @@ resultProcrustes <- function(proc, mirrorx, mirrory, scale) {
 #' @import Seurat
 #' @import tibble
 #' @import reticulate
+#' @import Procrustes
 #' @export
 STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = FALSE) {
   mode <- match.arg(mode) 
