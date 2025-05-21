@@ -97,8 +97,13 @@ calcParameters <- function(solution, xmax, ymax) {
   angulo <- atan2(seno, coseno) * (180/pi)
   
   # Calculate x and y translation parameters
-  trx <- solution[["dx"]] / xmax
-  try <- - solution[["dy"]] / ymax
+  if (abs(solution[["dx"]]) > xmax) { 
+    trx <- solution[["dx"]] / abs(solution[["dx"]]) 
+  } else { trx <- solution[["dx"]] / xmax }
+  
+  if (abs(solution[["dy"]]) > ymax) { 
+    try <- - solution[["dy"]] / abs(solution[["dy"]]) 
+  } else { try <- - solution[["dy"]] / ymax }
   
   e <- solution[["e"]]  # Scaling factor
 
