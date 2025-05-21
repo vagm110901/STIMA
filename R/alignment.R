@@ -579,7 +579,6 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
 
   # Iterate over each image in the dataset (starting from the second image)
   for (i in 2:length(object.semla@tools$Staffli@rasterlists$raw)) {
-    }
     if (mode == "GTEM" ) {
 
       if (scale == TRUE) {

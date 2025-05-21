@@ -14,9 +14,9 @@ resultProcrustes(proc, mirrorx, mirrory, scale)
 \item \code{d}: a scaling factor (distance).
 }}
 
-\item{mirrorx}{Logical; whether to apply reflection along the x-axis.}
+\item{mirrorx}{0 or anothe value; whether to apply reflection along the x-axis.}
 
-\item{mirrory}{Logical; whether to apply reflection along the y-axis.}
+\item{mirrory}{0 or anothe value; whether to apply reflection along the y-axis.}
 
 \item{scale}{Logical; whether to apply scaling.}
 }
