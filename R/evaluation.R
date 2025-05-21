@@ -56,7 +56,7 @@ hex2rgb_table_norm <- function(objetHex) {
 #' Generates the 0-255 RGB values for an image with RGB normalized values
 #' 
 #' @param objetRGB A numeric array of RGB values normalized between 0 and 1.
-#' @return An integer array with RGB values scaled to [0, 255].
+#' @return An integer array with RGB values scaled to 0-255.
 #' @import SpatialPack
 rgb_table_norm2rgb_table <- function(objetRGB) {
   objetRGB <- round(objetRGB * 255)

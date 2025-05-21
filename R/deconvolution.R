@@ -332,7 +332,6 @@ deconvolutionRCTD_mergeFiles <- function(modes = c("GTEM", "procrustes", "RVSSim
 #' @import dplyr
 #' @import tidyr
 matrixComparison <- function(listaObjAnnot) {
-  library(data.table)
   # Build empty matrixes
   imageMatrixRef <- data.table::data.table(matrix(numeric(0), ncol = 11))
   imageMatrixNOT <- data.table::data.table(matrix(numeric(0), ncol = 11))

@@ -16,15 +16,15 @@ calculateEvaluationPython(
 )
 }
 \arguments{
-\item{listaCoordenadasNEW}{}
+\item{objeto.seurat}{Seurat object containing images and coordinates.}
 
-\item{listaCoordenadas}{}
+\item{mode}{Evaluation mode: one of "GTEM", "procrustes", or "RVSSimageJ".}
 
-\item{patientType}{}
+\item{listaCoordenadasNEW}{List of new coordinates (optional, used mainly if mode != "RVSSimageJ").}
 
-\item{listaRawImages}{}
+\item{listaCoordenadas}{List of original coordinates (optional, used mainly if mode != "RVSSimageJ").}
 
-\item{listaTransImages}{}
+\item{patientType}{Patient type, affecting region size ("unique" or "multiple").}
 }
 \value{
 Evaluation

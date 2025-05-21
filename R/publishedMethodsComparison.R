@@ -169,11 +169,11 @@ STaligntoSeurat <- function(object.STalign, object, patientType = c('unique','mu
 #' Evaluate the alignment of images using various metrics (MSE, SSIM, etc.) for both raw and transformed images.
 #' It uses the image of an object created by python (STalign or PASTE2).
 #' 
-#' @param listaCoordenadasNEW 
-#' @param listaCoordenadas 
-#' @param listaRawImages 
-#' @param listaTransImages 
-#' @param patientType 
+#' @param objeto.seurat Seurat object containing images and coordinates.
+#' @param mode Evaluation mode: one of "GTEM", "procrustes", or "RVSSimageJ".
+#' @param listaCoordenadasNEW List of new coordinates (optional, used mainly if mode != "RVSSimageJ").
+#' @param listaCoordenadas List of original coordinates (optional, used mainly if mode != "RVSSimageJ").
+#' @param patientType Patient type, affecting region size ("unique" or "multiple").
 #' @return Evaluation
 #' @import SpatialPack
 #' @import imager

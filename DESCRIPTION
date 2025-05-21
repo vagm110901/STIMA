@@ -17,8 +17,6 @@ Depends:
     Seurat (== 5.0.2),
     semla (== 1.3.1)
 Imports: 
-    SeuratDisk,
-    SeuratObject (<= 5.0.2),
     patchwork,
     spacexr (>= 2.2.1),
     reticulate (>= 1.40.0),
@@ -28,10 +26,7 @@ Imports:
     SpatialPack,
     ggplot2,
     doParallel,
-    hdf5r,
     parallel,
-    parallelly,
-    png,
     jpeg,
     FactoMineR,
     lme4,
@@ -63,7 +58,12 @@ SystemRequirements:
     anndata,
     cv2,
     scipy
-Suggests: 
+Suggests:
+    SeuratDisk,
+    SeuratObject,
+    hdf5r,
+    parallelly,
+    png, 
     testthat (>= 3.0.0),
     SparseArray,
     grDevices,
@@ -77,5 +77,5 @@ Suggests:
     matrixStats,
     dbplyr,
     dtplyr,
-    tibble (>= 3.2.1)
+    remotes
 Config/testthat/edition: 3

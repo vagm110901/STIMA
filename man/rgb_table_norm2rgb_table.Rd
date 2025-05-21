@@ -10,7 +10,7 @@ rgb_table_norm2rgb_table(objetRGB)
 \item{objetRGB}{A numeric array of RGB values normalized between 0 and 1.}
 }
 \value{
-An integer array with RGB values scaled to \link{0, 255}.
+An integer array with RGB values scaled to 0-255.
 }
 \description{
 Generates the 0-255 RGB values for an image with RGB normalized values
