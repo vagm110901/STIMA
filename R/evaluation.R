@@ -348,7 +348,7 @@ evaluationComplete <- function(listaCoordenadasNEW, listaCoordenadas,
               listaRawImages[[j]][rows_sq, cols_sq, ],
               listaCoordenadas, c(i,j)) 
           }, error = function(e) {
-            message(sprintf("Error en comparación %d-%d: %s", i, j, e$message))
+            message(sprintf("Error when comparing %d-%d: %s", i, j, e$message))
             return(NULL)
           })
           print(parameters)
@@ -450,7 +450,7 @@ evaluationComplete <- function(listaCoordenadasNEW, listaCoordenadas,
               listaRawImages[[j]][coordRange2[[1]],coordRange2[[2]],],
               listaCoordenadas, c(i,j))
           }, error = function(e) {
-            message(sprintf("Error en comparación %d-%d: %s", i, j, e$message))
+            message(sprintf("Error when comparing %d-%d: %s", i, j, e$message))
             return(NULL)
             })
           print(parameters)
@@ -508,7 +508,7 @@ evaluationComplete <- function(listaCoordenadasNEW, listaCoordenadas,
               listaTransImages[[j]][rows_sq, cols_sq, ],
               listaCoordenadasNEW, c(i,j)) 
           }, error = function(e) {
-            message(sprintf("Error en comparación %d-%d: %s", i, j, e$message))
+            message(sprintf("Error when comapring %d-%d: %s", i, j, e$message))
             return(NULL)
           })
           print(parameters)
@@ -611,7 +611,7 @@ evaluationComplete <- function(listaCoordenadasNEW, listaCoordenadas,
               listaTransImages[[j]][coordRange2[[1]],coordRange2[[2]],],
               listaCoordenadasNEW, c(i,j)) 
           }, error = function(e) {
-            message(sprintf("Error en comparación %d-%d: %s", i, j, e$message))
+            message(sprintf("Error when comparing %d-%d: %s", i, j, e$message))
             return(NULL)
           })
           print(parameters)

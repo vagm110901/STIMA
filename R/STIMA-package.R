@@ -3,10 +3,9 @@
 #' @description 
 #' Spatial Transcriptomics Image-based Methods for Alignment
 #'
-#' @docType "_PACKAGE"
-#' 
+#' @docType package
 #' @title STIMA
 #' @author Victor A. Gaya-Martín
 #' maintainer Victor A. Gaya-Martín
 #' @name STIMA
-NULL
+"_PACKAGE"
