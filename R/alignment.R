@@ -768,7 +768,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
   } else if (mode == "GTEM" | mode == "Procrustes") {
     saveObj <- list(alignedObj = object.seurat,
                     listCoord = listaCoordenadas,
-                    listCoordNew = listaCoordenadasNEW))
+                    listCoordNew = listaCoordenadasNEW)
   }
   saveRDS(saveObj, paste0(saveDir, "objectAligned_merge_",mode,".rds"))
   return(saveObj)
