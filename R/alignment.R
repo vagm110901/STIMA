@@ -74,6 +74,9 @@ solveCoord <- function(coord1, coord2, xmax, ymax) {
 #'   }
 #' @param xmax Numeric. The maximum value for the x-dimension, used to scale the translation.
 #' @param ymax Numeric. The maximum value for the y-dimension, used to scale the translation.
+#' @param mode Character. Alignment mode to use. One of "GTEM" or "procrustes".
+#'   - "GTEM": Geometric transformations without scaling.
+#'   - "procrustes": Uses Procrustes analysis with optional scaling.
 #' 
 #' @return A named numeric vector containing the calculated transformation parameters:
 #' \describe{
@@ -86,7 +89,8 @@ solveCoord <- function(coord1, coord2, xmax, ymax) {
 #' }
 #'
 #' @export
-calcParameters <- function(solution, xmax, ymax) {
+calcParameters <- function(solution, xmax, ymax, mode = c("GTEM", "procrustes", "RVSSimageJ") ) {
+  mode <- match.arg(mode)
   # Calculate angles and restrict cosine and sine values to the range [-1, 1]
   coseno <- solution[["coseno"]]
   seno <- solution[["seno"]]
@@ -97,13 +101,18 @@ calcParameters <- function(solution, xmax, ymax) {
   angulo <- atan2(seno, coseno) * (180/pi)
   
   # Calculate x and y translation parameters
-  if (abs(solution[["dx"]]) > xmax) { 
-    trx <- solution[["dx"]] / abs(solution[["dx"]]) 
-  } else { trx <- solution[["dx"]] / xmax }
-  
-  if (abs(solution[["dy"]]) > ymax) { 
-    try <- - solution[["dy"]] / abs(solution[["dy"]]) 
-  } else { try <- - solution[["dy"]] / ymax }
+  if (mode == "GTEM") {
+    if (abs(solution[["dx"]]) > xmax) { 
+      trx <- solution[["dx"]] / abs(solution[["dx"]]) 
+    } else { trx <- solution[["dx"]] / xmax }
+    
+    if (abs(solution[["dy"]]) > ymax) { 
+      try <- - solution[["dy"]] / abs(solution[["dy"]]) 
+    } else { try <- - solution[["dy"]] / ymax }
+  } else if (mode == "procrustes") {
+    trx <-  (solution[["dx"]] - (xmax/2 - xmax/2 * coseno + ymax/2 * seno)) / xmax
+    try <-  (solution[["dy"]] - (ymax/2 - ymax/2 * coseno - xmax/2 * seno)) / ymax
+  }
   
   e <- solution[["e"]]  # Scaling factor
 
@@ -524,7 +533,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
                   ncol(object.semla@tools$Staffli@rasterlists$raw[[i]]))
       
       # Calculate transformation parameters for each option
-      todosvalores <- lapply(option, function(solucion) calcParameters(solucion, xmax, ymax))
+      todosvalores <- lapply(option, function(solucion) calcParameters(solucion, xmax, ymax, mode))
       # Store calculated transformation values for each option in a separate list
       listaOpcionesCalc[[i]] <- todosvalores
       
