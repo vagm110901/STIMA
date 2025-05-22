@@ -534,10 +534,10 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
       indice_fila_minima <- names(which.min(suma_de_cuadrados)) # Name of minimum sum of squares
       
       # Determine mirroring settings based on the index of the optimal transformation
-      if (indice_fila_minima == solucionOrig)     { mirrorx <- FALSE;  mirrory <- FALSE }
-      if (indice_fila_minima == solucionMirrorX)  { mirrorx <- TRUE ;  mirrory <- FALSE }
-      if (indice_fila_minima == solucionMirrorY)  { mirrorx <- FALSE;  mirrory <- TRUE  }
-      if (indice_fila_minima == solucionMirrorXY) { mirrorx <- TRUE ;  mirrory <- TRUE  }
+      if (indice_fila_minima == "solucionOrig")     { mirrorx <- FALSE;  mirrory <- FALSE }
+      if (indice_fila_minima == "solucionMirrorX")  { mirrorx <- TRUE ;  mirrory <- FALSE }
+      if (indice_fila_minima == "solucionMirrorY")  { mirrorx <- FALSE;  mirrory <- TRUE  }
+      if (indice_fila_minima == "solucionMirrorXY") { mirrorx <- TRUE ;  mirrory <- TRUE  }
       
       # Update the solution with the optimal transformation option and mirror settings
       solucion <- listaOpciones[[i]][[indice_fila_minima]]
