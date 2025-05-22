@@ -379,7 +379,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
       }
     }
   } else if (mode == "GTEM" | mode == "procrustes") {
-
+    
     # Select and round the coordinates from the reference image (first sample)
     coordenadas1 <- selectCoord(object.semla@tools$Staffli@rasterlists$raw[[1]])
     for (j in seq_along(coordenadas1)) {
@@ -417,6 +417,8 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
       xmax2 <- nrow(object.semla@tools$Staffli@rasterlists$raw[[i]])
       ymax2 <- ncol(object.semla@tools$Staffli@rasterlists$raw[[i]])
 
+      coordCalc <- list()
+
       if (mode == "GTEM") {
 
         # Solve transformations without mirroring (original orientation)
@@ -424,6 +426,8 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         solucionOrig[["mirrorx"]] <- 0
         solucionOrig[["mirrory"]] <- 0
         solucionOrig[["e"]] <- 1
+        coordCalc[["solucionOrig"]] <- calcNewCoord(coordenadas2, solucionOrig, xmax2, ymax2)
+        
     
         # Solve transformations with mirroring on the x-axis
         coordenadas2X <- coordenadas2
@@ -434,6 +438,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         solucionMirrorX[["mirrorx"]] <- 10
         solucionMirrorX[["mirrory"]] <- 0
         solucionMirrorX[["e"]] <- 1
+        coordCalc[["solucionMirrorX"]] <- calcNewCoord(coordenadas2, solucionMirrorX, xmax2, ymax2)
     
         # Solve transformations with mirroring on the y-axis
         coordenadas2Y <- coordenadas2
@@ -444,6 +449,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         solucionMirrorY[["mirrorx"]] <- 0
         solucionMirrorY[["mirrory"]] <- 10
         solucionMirrorY[["e"]] <- 1
+        coordCalc[["solucionMirrorY"]] <- calcNewCoord(coordenadas2, solucionMirrorY, xmax2, ymax2)
     
         # Solve transformations with mirroring on both x and y axes
         coordenadas2XY <- coordenadas2
@@ -455,19 +461,15 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         }
         solucionMirrorXY <- solveCoord(coordenadas1, coordenadas2XY, xmax2, ymax2)
         solucionMirrorXY[["mirrorx"]] <- 10
-        solucionMirrorXY[["mirrory"]] <- 1
+        solucionMirrorXY[["mirrory"]] <- 10
         solucionMirrorXY[["e"]] <- 1
+        coordCalc[["solucionMirrorXY"]] <- calcNewCoord(coordenadas2, solucionMirrorXY, xmax2, ymax2)
 
       } else if (mode == "procrustes") {
-        # Initialize lists for storing sum of squares and calculated coordinates
-        val_sum_cuad <- list()
-        coordCalc <- list()
-    
         # Solve for the original orientation (without mirroring)
         matProb <- matrix(data = unlist(coordenadas2), ncol = 2)
         proc <- IMIFA::Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = scale, sumsq = TRUE)
         solucionOrig <- resultProcrustes(proc, 0, 0, scale)
-        val_sum_cuad[["solucionOrig"]] <- proc$ss
         coordCalc[["solucionOrig"]] <- proc$X.new
     
         # Solve with mirror on x-axis
@@ -478,7 +480,6 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         matProb <- matrix(data = unlist(coordenadas2X), ncol = 2)
         proc <- IMIFA::Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = scale, sumsq = TRUE) 
         solucionMirrorX <- resultProcrustes(proc, 10, 0, scale)
-        val_sum_cuad[["solucionMirrorX"]] <- proc$ss
         coordCalc[["solucionMirrorX"]] <- proc$X.new
     
         # Solve with mirror on y-axis
@@ -489,7 +490,6 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         matProb <- matrix(data = unlist(coordenadas2Y), ncol = 2)
         proc <- IMIFA::Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = scale, sumsq = TRUE)
         solucionMirrorY <- resultProcrustes(proc, 0, 10, scale)
-        val_sum_cuad[["solucionMirrorY"]] <- proc$ss
         coordCalc[["solucionMirrorY"]] <- proc$X.new
         
         # Solve with mirror on both x and y axes
@@ -502,97 +502,79 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         }
         matProb <- matrix(data = unlist(coordenadas2XY), ncol = 2)
         proc <- IMIFA::Procrustes(X = matProb, Xstar = matrixCoord1, translate = TRUE, dilate = scale, sumsq = TRUE)
-        solucionMirrorXY <- resultProcrustes(proc, 10, 1, scale)
-        val_sum_cuad[["solucionMirrorXY"]] <- proc$ss
+        solucionMirrorXY <- resultProcrustes(proc, 10, 10, scale)
         coordCalc[["solucionMirrorXY"]] <- proc$X.new
       }
     
       # Store each transformation option in a list for the current image
-      option <- list()
-      option[["solucionOrig"]] <- solucionOrig
-      option[["solucionMirrorX"]] <- solucionMirrorX
-      option[["solucionMirrorY"]] <- solucionMirrorY
-      option[["solucionMirrorXY"]] <- solucionMirrorXY
+      option <- list(
+        solucionOrig     = solucionOrig,
+        solucionMirrorX  = solucionMirrorX,
+        solucionMirrorY  = solucionMirrorY,
+        solucionMirrorXY = solucionMirrorXY
+      )
       listaOpciones[[i]] <- option
 
-      if (mode == "GTEM" || mode == "procrustes") {
-        # Select the transformation option with the lowest sum of squares
+      # Select the transformation option with the lowest sum of squares
         
-        # Calculate the minimum dimensions between the reference image and the current image
-        xmax <- min(nrow(object.semla@tools$Staffli@rasterlists$raw[[1]]),
-                    nrow(object.semla@tools$Staffli@rasterlists$raw[[i]]))
-        ymax <- min(ncol(object.semla@tools$Staffli@rasterlists$raw[[1]]),
-                    ncol(object.semla@tools$Staffli@rasterlists$raw[[i]]))
+      # Calculate the minimum dimensions between the reference image and the current image
+      xmax <- min(nrow(object.semla@tools$Staffli@rasterlists$raw[[1]]),
+                  nrow(object.semla@tools$Staffli@rasterlists$raw[[i]]))
+      ymax <- min(ncol(object.semla@tools$Staffli@rasterlists$raw[[1]]),
+                  ncol(object.semla@tools$Staffli@rasterlists$raw[[i]]))
+      
+      # Calculate transformation parameters for each option
+      todosvalores <- lapply(option, function(solucion) calcParameters(solucion, xmax, ymax))
+      # Store calculated transformation values for each option in a separate list
+      listaOpcionesCalc[[i]] <- todosvalores
+      
+      # Calculate the sum of squares for each transformation option to find the optimal alignment
+      suma_de_cuadrados <- sapply(todosvalores, function(valores) sum(valores^2))
+      
+      indice_fila_minima <- names(which.min(suma_de_cuadrados)) # Name of minimum sum of squares
+      
+      # Determine mirroring settings based on the index of the optimal transformation
+      if (indice_fila_minima == solucionOrig)     { mirrorx <- FALSE;  mirrory <- FALSE }
+      if (indice_fila_minima == solucionMirrorX)  { mirrorx <- TRUE ;  mirrory <- FALSE }
+      if (indice_fila_minima == solucionMirrorY)  { mirrorx <- FALSE;  mirrory <- TRUE  }
+      if (indice_fila_minima == solucionMirrorXY) { mirrorx <- TRUE ;  mirrory <- TRUE  }
+      
+      # Update the solution with the optimal transformation option and mirror settings
+      solucion <- listaOpciones[[i]][[indice_fila_minima]]
+      solucion[["mirrorx"]] <- mirrorx
+      solucion[["mirrory"]] <- mirrory
+      listaSoluciones[[i]] <- solucion
+      
+      # Store the selected transformation parameters for later use
+      listaValores[[i]] <- listaOpcionesCalc[[i]][[indice_fila_minima]]
         
-        todosvalores <- list(NA)
-        for (j in seq_along(option)) {
-          # Select the current transformation option for the image
-          solucion <- option[[j]]
-
-          # Calculate parameters (e.g., angles, translations) based on the solution and image dimensions
-          valores <- calcParameters(solucion, xmax, ymax)
-          todosvalores[[j]] <- valores
-        }
-        
-        # Store calculated transformation values for each option in a separate list
-        listaOpcionesCalc[[i]] <- todosvalores
-        
-        # Calculate the sum of squares for each transformation option to find the optimal alignment
-        suma_de_cuadrados <- apply(do.call(rbind, listaOpcionesCalc[[i]]), 1, function(x) sum(x^2))
-        indice_fila_minima <- which.min(suma_de_cuadrados)  # Index of minimum sum of squares
-        
-        # Determine mirroring settings based on the index of the optimal transformation
-        if (indice_fila_minima == 2 | indice_fila_minima == 4) { mirrorx <- TRUE } else { mirrorx <- FALSE }
-        if (indice_fila_minima == 3 | indice_fila_minima == 4) { mirrory <- TRUE } else { mirrory <- FALSE }
-        
-        # Update the solution with the optimal transformation option and mirror settings
-        solucion <- solucionOrig
-        solucion <- listaOpciones[[i]][[indice_fila_minima]]
-        solucion[["mirrorx"]] <- mirrorx
-        solucion[["mirrory"]] <- mirrory
-        listaSoluciones[[i]] <- solucion
-        
-        # Store the selected transformation parameters for later use
-        listaValores[[i]] <- listaOpcionesCalc[[i]][[indice_fila_minima]]
-
-        
-        if (mode == "GTEM") {
-          # Update coordinates for the transformed image
-          coord <- listaCoordenadas[[i]]
-          xmax <- nrow(object.semla@tools$Staffli@rasterlists$raw[[i]])
-          ymax <- ncol(object.semla@tools$Staffli@rasterlists$raw[[i]])
-          coordNEW <- calcNewCoord(coord, solucion, xmax, ymax)
-          listaCoordenadasNEW[[i]] <- coordNEW
-          
-        } else if (mode == "procrustes") {
-          # Update coordinates based on selected transformation
+      # Update coordinates based on selected transformation
+      if (mode == "GTEM") { 
+        listaCoordenadasNEW[[i]] <- coordCalc[[indice_fila_minima]]
+      } else if (mode == "procrustes") {
           coordNEWmatrix <- coordCalc[[indice_fila_minima]]
           coordNEW <- list()
           coordNEW$x <- round(coordNEWmatrix[,1])
           coordNEW$y <- round(coordNEWmatrix[,2])
           listaCoordenadasNEW[[i]] <- coordNEW 
-        }
       }
     }
   }
 
   # Iterate over each image in the dataset (starting from the second image)
   for (i in 2:length(object.semla@tools$Staffli@rasterlists$raw)) {
+    
     if (mode == "GTEM" ) {
-
       if (scale == TRUE) {
         # Up to this point, TR has been applied correctly, 
         # now it will be calculated if any scaling modifications would be necessary.
-        valueScal <- round(calcScal(listaCoordenadas[[1]], coordNEW),2) 
-      
+        valueScal <- round(calcScal(listaCoordenadas[[1]], listaCoordenadasNEW[[i]]),2) 
         if (valueScal != 1) {
           listaCoordenadasNEW[[i]][['x']] <- listaCoordenadasNEW[[i]][['x']] * valueScal
           listaCoordenadasNEW[[i]][['y']] <- listaCoordenadasNEW[[i]][['y']] * valueScal
         }
-      
         listaValores[[i]][["e"]] <- valueScal
       } else if (scale == FALSE) {listaValores[[i]][["e"]] <- 1}
-
       # Display the selected transformation parameters
       valores <- listaValores[[i]]
 
@@ -624,7 +606,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         
         # Calculate the scale factor extracting from the estimated values
         valores$e <- sqrt(solucion[["s*sin"]]^2 + solucion[["s*cos"]]^2)
-        valores$e <- ifelse(valores$scale > 3, 3, valores$scale)
+        if (valores$e > 3) valores$e <- 3
         
         # Adjust dx and dy based on image center for transformation normalization
         valores$trx <-  (solucion$dx - (xmax/2 - xmax/2 * cos(angle_rad) + ymax/2 * sin(angle_rad))) / xmax
