@@ -89,7 +89,7 @@ solveCoord <- function(coord1, coord2, xmax, ymax) {
 #' }
 #'
 #' @export
-calcParameters <- function(solution, xmax, ymax, mode = c("GTEM", "procrustes", "RVSSimageJ") ) {
+calcParameters <- function(solution, xmax, ymax, mode = c("GTEM", "procrustes") ) {
   mode <- match.arg(mode)
   # Calculate angles and restrict cosine and sine values to the range [-1, 1]
   coseno <- solution[["coseno"]]
@@ -98,21 +98,20 @@ calcParameters <- function(solution, xmax, ymax, mode = c("GTEM", "procrustes", 
   if (seno > 1) {seno <- 1} else {if (seno < -1) {seno <- -1}}
   
   tangente <- seno / coseno
-  angulo <- atan2(seno, coseno) * (180/pi)
+  angle <- atan2(seno, coseno) 
+  angulo <- angle * (180/pi)
   
   # Calculate x and y translation parameters
   if (mode == "GTEM") {
-    if (abs(solution[["dx"]]) > xmax) { 
-      trx <- solution[["dx"]] / abs(solution[["dx"]]) 
-    } else { trx <- solution[["dx"]] / xmax }
-    
-    if (abs(solution[["dy"]]) > ymax) { 
-      try <- - solution[["dy"]] / abs(solution[["dy"]]) 
-    } else { try <- - solution[["dy"]] / ymax }
+    trx <-  solution[["dx"]] / xmax
+    try <- - solution[["dy"]] / ymax
   } else if (mode == "procrustes") {
-    trx <-  (solution[["dx"]] - (xmax/2 - xmax/2 * coseno + ymax/2 * seno)) / xmax
-    try <-  (solution[["dy"]] - (ymax/2 - ymax/2 * coseno - xmax/2 * seno)) / ymax
+    trx <-  (solution[["dx"]] - (xmax/2 - xmax/2 * cos(angle) + ymax/2 * sin(angle))) / xmax
+    try <-  - ( solution[["dy"]] - (ymax/2 - ymax/2 * cos(angle) - xmax/2 * sin(angle))) / ymax
   }
+  
+  trx <- max(min(trx, 1), -1)
+  try <- max(min(try, 1), -1)
   
   e <- solution[["e"]]  # Scaling factor
 

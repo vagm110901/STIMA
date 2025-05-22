@@ -4,7 +4,7 @@
 \alias{calcParameters}
 \title{calcParameters(solution, xmax, ymax)}
 \usage{
-calcParameters(solution, xmax, ymax)
+calcParameters(solution, xmax, ymax, mode = c("GTEM", "procrustes"))
 }
 \arguments{
 \item{solution}{A named numeric vector containing the raw transformation parameters, typically
@@ -22,6 +22,12 @@ the result from the \code{solveCoord()} function. Must include at least:
 \item{xmax}{Numeric. The maximum value for the x-dimension, used to scale the translation.}
 
 \item{ymax}{Numeric. The maximum value for the y-dimension, used to scale the translation.}
+
+\item{mode}{Character. Alignment mode to use. One of "GTEM" or "procrustes".
+\itemize{
+\item "GTEM": Geometric transformations without scaling.
+\item "procrustes": Uses Procrustes analysis with optional scaling.
+}}
 }
 \value{
 A named numeric vector containing the calculated transformation parameters:
