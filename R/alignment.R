@@ -542,6 +542,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
       })
       
       indice_fila_minima <- names(which.min(suma_de_cuadrados)) # Name of minimum sum of squares
+      print(indice_fila_minima)
       
       # Determine mirroring settings based on the index of the optimal transformation
       if (indice_fila_minima == "solucionOrig")     { mirrorx <- FALSE;  mirrory <- FALSE }
@@ -557,6 +558,8 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
       
       # Store the selected transformation parameters for later use
       listaValores[[i]] <- listaOpcionesCalc[[i]][[indice_fila_minima]]
+      print(solucion)
+      print(listaValores[[i]])
         
       # Update coordinates based on selected transformation
       if (mode == "GTEM") { 
