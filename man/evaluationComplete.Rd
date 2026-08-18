@@ -34,7 +34,6 @@ A nested list with alignment evaluation metrics for both raw and transformed ima
 \item{original}{List of raw image comparisons including:
 \itemize{
 \item \code{max_pixels}: Evaluations on largest common square submatrix.
-\item \code{sameRegion_samePoint}: Evaluations on same region and same reference point.
 \item \code{commonRegion_differentPoint}: Evaluations on common region but different reference points.
 }
 }
