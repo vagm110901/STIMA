@@ -41,8 +41,10 @@ import(semla)
 import(spacexr)
 import(stats)
 importFrom(Matrix,sparseMatrix)
-importFrom(Seurat,GetImage)
-importFrom(Seurat,GetTissueCoordinates)
+importFrom(Seurat,
+  GetImage,
+  GetTissueCoordinates
+)
 importFrom(png,writePNG)
 importFrom(spacexr,Reference)
 importFrom(tiff,writeTIFF)

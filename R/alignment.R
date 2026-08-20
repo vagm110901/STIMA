@@ -474,7 +474,7 @@ STIMA <- function(object, mode = c("GTEM", "procrustes", "RVSSimageJ"), scale = 
         }
         solucionMirrorXY <- solveCoord(coordenadas1, coordenadas2XY, xmax2, ymax2)
         solucionMirrorXY[["mirrorx"]] <- 10
-        solucionMirrorXY[["mirrory"]] <- 1
+        solucionMirrorXY[["mirrory"]] <- 10
         solucionMirrorXY[["e"]] <- 1
         coordCalc[["solucionMirrorXY"]] <- calcNewCoord(coordenadas2XY, solucionMirrorXY, xmax2, ymax2)
         EuclDistance[["solucionMirrorXY"]] <- mean(EuclDist(list(coordenadas1, coordenadas2XY), c(1,2)))

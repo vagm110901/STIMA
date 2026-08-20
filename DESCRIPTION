@@ -1,7 +1,7 @@
 Package: STIMA
 Type: Package
 Title: Spatial Transcriptomics Image-based Methods for Alignment
-Version: 0.1.3
+Version: 1.0.0
 Authors@R: 
     person("Víctor A.", "Gaya-Martín",
            email = "vagayam11@gmail.com", 
@@ -11,7 +11,6 @@ Description: Spatial Transcriptomics data alignment in a pairwise comparison man
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 LazyData: false
 Remotes:
@@ -87,3 +86,4 @@ Collate:
     'graphs.R'
     'publishedMethodsComparison.R'
     'zzz.R'
+Config/roxygen2/version: 8.1.0
