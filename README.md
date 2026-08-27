@@ -37,8 +37,21 @@ STIMA includes three distinct alignment approaches:
   [ImageJ Wiki
   2022](https://imagej.github.io/plugins/register-virtual-stack-slices)
 
-**STIMA** takes its name from the Valencian/Catalan word *estima*,
+**STIMA** takes its name from the Valencian/Catalan word ‘*estima*’,
 meaning ‘*love*’.
+
+## Table of contents
+
+- [Installation](#installation)
+- [Documentation](#documentation)
+  - [Vignettes](#vignettes)
+  - [Additional useful information and
+    tips](#additional-useful-information-and-tips)
+  - [How to choose the right alignment
+    method](#how-to-choose-the-right-alignment-method)
+  - [Evaluating the results](#evaluating-the-results)
+  - [Example data](#example-data)
+- [Citation](#citation)
 
 ## Installation
 
@@ -131,7 +144,7 @@ characteristics, but in general we recommend GTEM:
   uniform coloring. This method is the fastest as it does not require
   manual landmarks.
 
-#### Evaluating the Results
+### Evaluating the results
 
 Although **visual inspection** is the most accurate way to choose the
 best result, you should use the provided metrics for objective
@@ -146,7 +159,7 @@ confirmation:
   value closer to 1 indicates greater similarity in cell-type
   composition.
 
-### Example Data
+### Example data
 
 The data used to replicate the vignettes originate from [Yadav *et al*.
 (2023)](https://doi.org/10.1016/j.neuron.2023.01.007) and from [Basu *et
@@ -164,3 +177,9 @@ GEO under the accession number GEO:
 and the single-cell RNA-seq data from the [Brain Science Data Center,
 Chinese Academy of
 Sciences](https://doi.org/10.12412/BSDC.1699433096.20001).
+
+## Citation
+
+If you use **STIMA** in your research, please note that the manuscript
+is currently **under review**. Citation details and DOI will be updated
+here upon publication.

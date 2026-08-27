@@ -37,7 +37,20 @@ STIMA includes three distinct alignment approaches:
 - **Procrustes Transformation**: [Gower 1975](https://doi.org/10.1007/BF02291478); [Murphy *et al*. 2020](https://doi.org/10.1214/19-BA1179)
 - **The ImageJ plugin Register Virtual Stack Slices (RVSS-ImageJ)**: [ImageJ Wiki 2022](https://imagej.github.io/plugins/register-virtual-stack-slices)
 
-**STIMA** takes its name from the Valencian/Catalan word *estima*, meaning '*love*'.
+**STIMA** takes its name from the Valencian/Catalan word '*estima*', meaning '*love*'.
+
+
+## Table of contents
+- [Installation](#installation)
+- [Documentation](#documentation)
+    - [Vignettes](#vignettes)
+    - [Additional useful information and tips](#additional-useful-information-and-tips)
+    - [How to choose the right alignment method](#how-to-choose-the-right-alignment-method)
+    - [Evaluating the results](#evaluating-the-results)
+    - [Example data](#example-data)
+- [Citation](#citation)
+
+
 
 ## Installation
 
@@ -95,7 +108,7 @@ STIMA offers three alignment strategies depending on your data characteristics, 
 - **Manual Landmarks**: Use GTEM or Procrustes if your project requires high precision for specific regions of interest (ROI) or specific orientations.
 - **RVSS-imageJ**: Best for images with well-defined structures and uniform coloring. This method is the fastest as it does not require manual landmarks.
 
-#### Evaluating the Results
+### Evaluating the results
 
 Although **visual inspection** is the most accurate way to choose the best result, you should use the provided metrics for objective confirmation: 
 
@@ -103,7 +116,7 @@ Although **visual inspection** is the most accurate way to choose the best resul
 - **Pixel similarity** is also a valid metric, but only if the staining is consistent across all images. The lower the **grayscale MSE** and the closer the **SSIM** is to 1, the better the alignment.
 - **Functional evaluation** can be performed by computing cell-type deconvolution over the samples and checking the **RV coefficient**. A value closer to 1 indicates greater similarity in cell-type composition.
 
-### Example Data
+### Example data
 
 The data used to replicate the vignettes originate from [Yadav *et al*. (2023)](https://doi.org/10.1016/j.neuron.2023.01.007) and from [Basu *et al*. (2026)](https://doi.org/10.1038/s41380-026-03466-x). 
 To access the spinal cord data used in this package, you can visit the repository [STIMA-exampleData](https://github.com/vagm110901/STIMA-exampleData), 
@@ -114,3 +127,7 @@ To access the brain data used in this package, you can download it from GEO unde
 GEO: [GSE301012](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE301012) and 
 the single-cell RNA-seq data from the [Brain Science Data Center, Chinese Academy of Sciences](https://doi.org/10.12412/BSDC.1699433096.20001).
   
+## Citation
+
+If you use **STIMA** in your research, please note that the manuscript is currently **under review**. 
+Citation details and DOI will be updated here upon publication.
